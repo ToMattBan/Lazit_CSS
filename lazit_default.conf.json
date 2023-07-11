@@ -1,0 +1,19 @@
+{
+  "settings": {
+    "breakpoints": {
+      "enabled": true,
+      "breakpoints": {
+        "tabletV": "600px",
+        "tabletH": "900px",
+        "laptop": "1200px",
+        "desktop": "1600px"
+      }
+    }
+  },
+  "tools": {},
+  "generics": {},
+  "elements": {},
+  "objects": {},
+  "components": {},
+  "utilities": {}
+}
