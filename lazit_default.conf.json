@@ -1,4 +1,8 @@
 {
+  "setup": {
+    "prefix": "_",
+    "separator": ""
+  },
   "settings": {
     "breakpoints": {
       "enabled": true,
@@ -7,7 +11,8 @@
         "tabletH": "900px",
         "laptop": "1200px",
         "desktop": "1600px"
-      }
+      },
+      "separator": "@"
     }
   },
   "tools": {},

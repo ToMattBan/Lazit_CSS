@@ -24,9 +24,14 @@ var readJsons = function () {
     data = JSON.parse(data);
     lazitConfigs = data;
 
+    if (!data.setup) {
+      lazitConfigs.setup = defaultJson.setup;
+      console.log('setup', data.setup);
+    }
+
     if (!data.settings) {
       lazitConfigs.settings = defaultJson.settings;
-      console.log("a", data.settings);
+      console.log("settings", data.settings);
     }
 
     console.log(lazitConfigs);
