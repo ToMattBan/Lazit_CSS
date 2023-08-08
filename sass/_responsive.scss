@@ -1,0 +1,20 @@
+@if (variable-exists(mq-breakpoints)) {
+
+  @each $breakpointName,
+  $breakpointValue in $mq-breakpoints {
+    $breakpoint: #{$breakpointSeparator}#{$breakpointName};
+
+    @include mq($from: $breakpointName) {
+
+      @each $util,
+      $mixin in $utilities {
+        @if ($util =="display") {
+          @include displayUtility($breakpoint)
+        }
+        @if ($util =="position") {
+          @include positionUtility($breakpoint)
+        }
+      }
+    }
+  }
+}

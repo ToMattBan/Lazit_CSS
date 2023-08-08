@@ -1,0 +1,17 @@
+$positionRules: (
+  "s": static,
+  "r": relative,
+  "a": absolute,
+  "f": fixed,
+  "t": sticky,
+);
+
+@mixin positionUtility($breakpoint: null) {
+  @each $indentifier, $rule in $positionRules {
+    .#{$utilityPrefix}po#{$utilitySeparator}#{$indentifier}#{$breakpoint} {
+      position: $rule !important;
+    }
+  }
+}
+
+$utilities: map.set($utilities, 'position', positionUtility());
