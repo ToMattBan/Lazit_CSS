@@ -3,10 +3,9 @@
   "version": "0.0.0",
   "description": "A tool, like a hammer, but for CSS. Based on InvertedTriangle Architecture",
   "scripts": {
-    "build": "npm run build:ts && node ./build/build.cjs && npm run build:sass",
-    "build:ts": "npx tsc build/build.ts && mv build/build.js build/build.cjs",
+    "build": "node ./build.cjs && npm run build:sass",
     "build:sass": "sass sass/main.scss public/main.css && npm run minify",
-    "minify": "sass sass/main.scss public/main.min.css"
+    "minify": "sass sass/main.scss public/main.min.css --style compressed"
   },
   "type": "module",
   "devDependencies": {
