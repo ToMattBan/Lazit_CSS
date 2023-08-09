@@ -1,7 +1,7 @@
 {
   "setup": {
     "prefix": "_",
-    "separator": ""
+    "separator": "_"
   },
   "settings": {
     "breakpoints": {
@@ -20,5 +20,39 @@
   "elements": {},
   "objects": {},
   "components": {},
-  "utilities": {}
+  "utilities": {
+    "display": {
+      "enabled": true,
+      "rules": {
+        "n": "none",
+        "i": "inline",
+        "b": "block",
+        "li": "list-item",
+        "ib": "inline-block",
+        "it": "inline-table",
+        "t": "table",
+        "tc": "table-cell",
+        "tcl": "table-column",
+        "tcg": "table-column-group",
+        "tfg": "table-footer-group",
+        "thg": "table-header-group",
+        "tr": "table-row",
+        "trg": "table-row-group",
+        "f": "flex",
+        "if": "inline-flex",
+        "g": "grid",
+        "ig": "inline-grid"
+      }
+    },
+    "position": {
+      "enabled": true,
+      "rules": {
+        "s": "static",
+        "r": "relative",
+        "a": "absolute",
+        "f": "fixed",
+        "t": "sticky"
+      }
+    }
+  }
 }
