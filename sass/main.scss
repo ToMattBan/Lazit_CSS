@@ -1,6 +1,7 @@
 @use "sass:map";
 
 @import "../node_modules/sass-mq/mq";
+@import "mixins";
 
 @import "1_settings/mainSettings";
 @import "2_tools/mainTools";

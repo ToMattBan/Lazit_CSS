@@ -1,0 +1,8 @@
+@mixin createUtility($initial, $utilityRules, $breakpoint) {
+
+  @each $indentifier, $rule in $utilityRules {
+    .#{$utilityPrefix}#{$initial}#{$utilitySeparator}#{$indentifier}#{$breakpoint} {
+      position: $rule !important;
+    }
+  }
+}
