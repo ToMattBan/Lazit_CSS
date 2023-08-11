@@ -23,6 +23,7 @@
   "utilities": {
     "display": {
       "enabled": true,
+      "initial": "d",
       "rules": {
         "n": "none",
         "i": "inline",
@@ -46,12 +47,20 @@
     },
     "position": {
       "enabled": true,
+      "initial": "po",
       "rules": {
         "s": "static",
         "r": "relative",
         "a": "absolute",
         "f": "fixed",
         "t": "sticky"
+      }
+    },
+    "cursor": {
+      "enabled": true,
+      "initial": "c",
+      "rules": {
+        "p": "pointer"
       }
     }
   }
