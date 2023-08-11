@@ -33,7 +33,7 @@
     width: 1px !important;
   } 
 
-  @include createUtility('d', $utilityRules, $breakpoint);
+  @include createUtility('display', 'd', $utilityRules, $breakpoint);
 }
 
 $utilities: map.set($utilities, 'display', displayUtility());

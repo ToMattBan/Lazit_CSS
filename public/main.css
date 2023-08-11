@@ -12,58 +12,58 @@
     width: 1px !important;
   }
   ._d-n\@mobile {
-    position: none !important;
+    display: none !important;
   }
   ._d-i\@mobile {
-    position: inline !important;
+    display: inline !important;
   }
   ._d-b\@mobile {
-    position: block !important;
+    display: block !important;
   }
   ._d-li\@mobile {
-    position: list-item !important;
+    display: list-item !important;
   }
   ._d-ib\@mobile {
-    position: inline-block !important;
+    display: inline-block !important;
   }
   ._d-it\@mobile {
-    position: inline-table !important;
+    display: inline-table !important;
   }
   ._d-t\@mobile {
-    position: table !important;
+    display: table !important;
   }
   ._d-tc\@mobile {
-    position: table-cell !important;
+    display: table-cell !important;
   }
   ._d-tcl\@mobile {
-    position: table-column !important;
+    display: table-column !important;
   }
   ._d-tcg\@mobile {
-    position: table-column-group !important;
+    display: table-column-group !important;
   }
   ._d-tfg\@mobile {
-    position: table-footer-group !important;
+    display: table-footer-group !important;
   }
   ._d-thg\@mobile {
-    position: table-header-group !important;
+    display: table-header-group !important;
   }
   ._d-tr\@mobile {
-    position: table-row !important;
+    display: table-row !important;
   }
   ._d-trg\@mobile {
-    position: table-row-group !important;
+    display: table-row-group !important;
   }
   ._d-f\@mobile {
-    position: flex !important;
+    display: flex !important;
   }
   ._d-if\@mobile {
-    position: inline-flex !important;
+    display: inline-flex !important;
   }
   ._d-g\@mobile {
-    position: grid !important;
+    display: grid !important;
   }
   ._d-ig\@mobile {
-    position: inline-grid !important;
+    display: inline-grid !important;
   }
   ._po-s\@mobile {
     position: static !important;
@@ -80,6 +80,33 @@
   ._po-t\@mobile {
     position: sticky !important;
   }
+  ._red\@mobile {
+    color: #f44336 !important;
+  }
+  ._green\@mobile {
+    color: #4caf50 !important;
+  }
+  ._realBlack\@mobile {
+    color: #000 !important;
+  }
+  ._black\@mobile {
+    color: #333 !important;
+  }
+  ._blue\@mobile {
+    color: #001690 !important;
+  }
+  ._yellow\@mobile {
+    color: rgb(170, 170, 36) !important;
+  }
+  ._orange\@mobile {
+    color: #ff7700 !important;
+  }
+  ._primary\@mobile {
+    color: #f44336 !important;
+  }
+  ._secondary\@mobile {
+    color: #4caf50 !important;
+  }
 }
 @media (min-width: 46.25em) {
   ._hidden\@tablet {
@@ -95,58 +122,58 @@
     width: 1px !important;
   }
   ._d-n\@tablet {
-    position: none !important;
+    display: none !important;
   }
   ._d-i\@tablet {
-    position: inline !important;
+    display: inline !important;
   }
   ._d-b\@tablet {
-    position: block !important;
+    display: block !important;
   }
   ._d-li\@tablet {
-    position: list-item !important;
+    display: list-item !important;
   }
   ._d-ib\@tablet {
-    position: inline-block !important;
+    display: inline-block !important;
   }
   ._d-it\@tablet {
-    position: inline-table !important;
+    display: inline-table !important;
   }
   ._d-t\@tablet {
-    position: table !important;
+    display: table !important;
   }
   ._d-tc\@tablet {
-    position: table-cell !important;
+    display: table-cell !important;
   }
   ._d-tcl\@tablet {
-    position: table-column !important;
+    display: table-column !important;
   }
   ._d-tcg\@tablet {
-    position: table-column-group !important;
+    display: table-column-group !important;
   }
   ._d-tfg\@tablet {
-    position: table-footer-group !important;
+    display: table-footer-group !important;
   }
   ._d-thg\@tablet {
-    position: table-header-group !important;
+    display: table-header-group !important;
   }
   ._d-tr\@tablet {
-    position: table-row !important;
+    display: table-row !important;
   }
   ._d-trg\@tablet {
-    position: table-row-group !important;
+    display: table-row-group !important;
   }
   ._d-f\@tablet {
-    position: flex !important;
+    display: flex !important;
   }
   ._d-if\@tablet {
-    position: inline-flex !important;
+    display: inline-flex !important;
   }
   ._d-g\@tablet {
-    position: grid !important;
+    display: grid !important;
   }
   ._d-ig\@tablet {
-    position: inline-grid !important;
+    display: inline-grid !important;
   }
   ._po-s\@tablet {
     position: static !important;
@@ -163,6 +190,33 @@
   ._po-t\@tablet {
     position: sticky !important;
   }
+  ._red\@tablet {
+    color: #f44336 !important;
+  }
+  ._green\@tablet {
+    color: #4caf50 !important;
+  }
+  ._realBlack\@tablet {
+    color: #000 !important;
+  }
+  ._black\@tablet {
+    color: #333 !important;
+  }
+  ._blue\@tablet {
+    color: #001690 !important;
+  }
+  ._yellow\@tablet {
+    color: rgb(170, 170, 36) !important;
+  }
+  ._orange\@tablet {
+    color: #ff7700 !important;
+  }
+  ._primary\@tablet {
+    color: #f44336 !important;
+  }
+  ._secondary\@tablet {
+    color: #4caf50 !important;
+  }
 }
 @media (min-width: 61.25em) {
   ._hidden\@desktop {
@@ -178,58 +232,58 @@
     width: 1px !important;
   }
   ._d-n\@desktop {
-    position: none !important;
+    display: none !important;
   }
   ._d-i\@desktop {
-    position: inline !important;
+    display: inline !important;
   }
   ._d-b\@desktop {
-    position: block !important;
+    display: block !important;
   }
   ._d-li\@desktop {
-    position: list-item !important;
+    display: list-item !important;
   }
   ._d-ib\@desktop {
-    position: inline-block !important;
+    display: inline-block !important;
   }
   ._d-it\@desktop {
-    position: inline-table !important;
+    display: inline-table !important;
   }
   ._d-t\@desktop {
-    position: table !important;
+    display: table !important;
   }
   ._d-tc\@desktop {
-    position: table-cell !important;
+    display: table-cell !important;
   }
   ._d-tcl\@desktop {
-    position: table-column !important;
+    display: table-column !important;
   }
   ._d-tcg\@desktop {
-    position: table-column-group !important;
+    display: table-column-group !important;
   }
   ._d-tfg\@desktop {
-    position: table-footer-group !important;
+    display: table-footer-group !important;
   }
   ._d-thg\@desktop {
-    position: table-header-group !important;
+    display: table-header-group !important;
   }
   ._d-tr\@desktop {
-    position: table-row !important;
+    display: table-row !important;
   }
   ._d-trg\@desktop {
-    position: table-row-group !important;
+    display: table-row-group !important;
   }
   ._d-f\@desktop {
-    position: flex !important;
+    display: flex !important;
   }
   ._d-if\@desktop {
-    position: inline-flex !important;
+    display: inline-flex !important;
   }
   ._d-g\@desktop {
-    position: grid !important;
+    display: grid !important;
   }
   ._d-ig\@desktop {
-    position: inline-grid !important;
+    display: inline-grid !important;
   }
   ._po-s\@desktop {
     position: static !important;
@@ -246,6 +300,33 @@
   ._po-t\@desktop {
     position: sticky !important;
   }
+  ._red\@desktop {
+    color: #f44336 !important;
+  }
+  ._green\@desktop {
+    color: #4caf50 !important;
+  }
+  ._realBlack\@desktop {
+    color: #000 !important;
+  }
+  ._black\@desktop {
+    color: #333 !important;
+  }
+  ._blue\@desktop {
+    color: #001690 !important;
+  }
+  ._yellow\@desktop {
+    color: rgb(170, 170, 36) !important;
+  }
+  ._orange\@desktop {
+    color: #ff7700 !important;
+  }
+  ._primary\@desktop {
+    color: #f44336 !important;
+  }
+  ._secondary\@desktop {
+    color: #4caf50 !important;
+  }
 }
 @media (min-width: 81.25em) {
   ._hidden\@wide {
@@ -261,58 +342,58 @@
     width: 1px !important;
   }
   ._d-n\@wide {
-    position: none !important;
+    display: none !important;
   }
   ._d-i\@wide {
-    position: inline !important;
+    display: inline !important;
   }
   ._d-b\@wide {
-    position: block !important;
+    display: block !important;
   }
   ._d-li\@wide {
-    position: list-item !important;
+    display: list-item !important;
   }
   ._d-ib\@wide {
-    position: inline-block !important;
+    display: inline-block !important;
   }
   ._d-it\@wide {
-    position: inline-table !important;
+    display: inline-table !important;
   }
   ._d-t\@wide {
-    position: table !important;
+    display: table !important;
   }
   ._d-tc\@wide {
-    position: table-cell !important;
+    display: table-cell !important;
   }
   ._d-tcl\@wide {
-    position: table-column !important;
+    display: table-column !important;
   }
   ._d-tcg\@wide {
-    position: table-column-group !important;
+    display: table-column-group !important;
   }
   ._d-tfg\@wide {
-    position: table-footer-group !important;
+    display: table-footer-group !important;
   }
   ._d-thg\@wide {
-    position: table-header-group !important;
+    display: table-header-group !important;
   }
   ._d-tr\@wide {
-    position: table-row !important;
+    display: table-row !important;
   }
   ._d-trg\@wide {
-    position: table-row-group !important;
+    display: table-row-group !important;
   }
   ._d-f\@wide {
-    position: flex !important;
+    display: flex !important;
   }
   ._d-if\@wide {
-    position: inline-flex !important;
+    display: inline-flex !important;
   }
   ._d-g\@wide {
-    position: grid !important;
+    display: grid !important;
   }
   ._d-ig\@wide {
-    position: inline-grid !important;
+    display: inline-grid !important;
   }
   ._po-s\@wide {
     position: static !important;
@@ -328,6 +409,33 @@
   }
   ._po-t\@wide {
     position: sticky !important;
+  }
+  ._red\@wide {
+    color: #f44336 !important;
+  }
+  ._green\@wide {
+    color: #4caf50 !important;
+  }
+  ._realBlack\@wide {
+    color: #000 !important;
+  }
+  ._black\@wide {
+    color: #333 !important;
+  }
+  ._blue\@wide {
+    color: #001690 !important;
+  }
+  ._yellow\@wide {
+    color: rgb(170, 170, 36) !important;
+  }
+  ._orange\@wide {
+    color: #ff7700 !important;
+  }
+  ._primary\@wide {
+    color: #f44336 !important;
+  }
+  ._secondary\@wide {
+    color: #4caf50 !important;
   }
 }
 

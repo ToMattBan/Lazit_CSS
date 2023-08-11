@@ -1,8 +1,15 @@
-@mixin createUtility($initial, $utilityRules, $breakpoint) {
+@mixin createUtility($property, $initial, $utilityRules, $breakpoint) {
 
   @each $indentifier, $rule in $utilityRules {
-    .#{$utilityPrefix}#{$initial}#{$utilitySeparator}#{$indentifier}#{$breakpoint} {
-      position: $rule !important;
+    
+    @if ($initial == "") {
+      .#{$utilityPrefix}#{$indentifier}#{$breakpoint} {
+        #{$property}: $rule !important;
+      }
+    } @else {
+      .#{$utilityPrefix}#{$initial}#{$utilitySeparator}#{$indentifier}#{$breakpoint} {
+        #{$property}: $rule !important;
+      }
     }
   }
 }

@@ -6,13 +6,15 @@
 
     @include mq($from: $breakpointName) {
 
-      @each $util,
-      $mixin in $utilities {
-        @if ($util =="display") {
+      @each $util, $mixin in $utilities {
+        @if ($util == "display") {
           @include displayUtility($breakpoint)
         }
-        @if ($util =="position") {
+        @if ($util == "position") {
           @include positionUtility($breakpoint)
+        }
+        @if ($util == "textColor") {
+          @include textColorUtility($breakpoint)
         }
       }
     }

@@ -7,7 +7,7 @@
     "t": sticky,
   );
 
-  @include createUtility('po', $utilityRules, $breakpoint);
+  @include createUtility('position', 'po', $utilityRules, $breakpoint);
 }
 
 $utilities: map.set($utilities, 'position', positionUtility()); 
