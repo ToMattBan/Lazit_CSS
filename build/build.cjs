@@ -10,16 +10,16 @@ var throwError = function (error) {
 var readJsons = function () {
   var defaultJson = {};
   fs.readFile("./lazit_default.conf.json", "utf8", function (err, data) {
-    if (err) return throwError("Couldn't read the default json file");
-    if (!data) return throwError("Couldn't get the default JSON");
+    if (err) return throwError("Couldn't get the default json file");
+    if (!data) return throwError("Couldn't read the default JSON");
 
     defaultJson = JSON.parse(data);
     return;
   });
 
-  fs.readFile("./lazit.conf.json", "utf8", function (err, data) {
-    if (err) throwError("Couldn't read the config json file");
-    if (!data) throwError("Couldn't get the config JSON");
+  fs.readFile("../lazit.conf.json", "utf8", function (err, data) {
+    if (err) throwError("Couldn't get the config json file");
+    if (!data) throwError("Couldn't read the config JSON");
 
     data = JSON.parse(data);
     lazitConfigs = data;
