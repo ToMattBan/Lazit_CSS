@@ -54,7 +54,7 @@ $mq-breakpoints: (
   "tabletH": 900px,
   "laptop": 1200px,
   "desktop": 1600px,
-) !default;
+);
 `;
 
 fs.writeFile("./sass/1_settings/_breakpoints.scss", input, (err) => {

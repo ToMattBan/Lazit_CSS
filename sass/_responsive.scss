@@ -10,11 +10,17 @@
         @if ($util == "display") {
           @include displayUtility($breakpoint)
         }
+
         @if ($util == "position") {
           @include positionUtility($breakpoint)
         }
+
         @if ($util == "textColor") {
           @include textColorUtility($breakpoint)
+        }
+
+        @if ($util == "padding") {
+          @include paddingUtility($breakpoint)
         }
       }
     }

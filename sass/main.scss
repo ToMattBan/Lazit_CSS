@@ -1,7 +1,7 @@
 @use "sass:map";
 
 @import "../node_modules/sass-mq/mq";
-@import "mixins";
+@import "./helper";
 
 @import "1_settings/mainSettings";
 @import "2_tools/mainTools";
@@ -11,4 +11,4 @@
 @import "6_components/mainComponents";
 @import "7_utilities/mainUtilities";
 
-@import 'responsive';
+@import './responsive';

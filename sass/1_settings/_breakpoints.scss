@@ -1,8 +1,9 @@
 $mq-breakpoints: (
+  "mobile": 0px,
   "tabletV": 600px,
   "tabletH": 900px,
   "laptop": 1200px,
   "desktop": 1600px,
-) !default;
+);
 
-$breakpointSeparator: \@ !default;
+$breakpointSeparator: \@;

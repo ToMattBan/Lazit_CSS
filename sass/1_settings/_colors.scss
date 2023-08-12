@@ -9,7 +9,7 @@ $colors: (
 );
 
 @function getColor($key) {
-  @return map_get($colors, $key);
+  @return map.get($colors, $key);
 }
 
 $colors: map.set($colors, 'primary', getColor("red"));

@@ -1,12 +1,14 @@
 {
   "setup": {
     "prefix": "_",
-    "separator": "_"
+    "separator": "_",
+    "defaultFontSize": "16px",
   },
   "settings": {
     "breakpoints": {
       "enabled": true,
       "breakpoints": {
+        "mobile": "0px",
         "tabletV": "600px",
         "tabletH": "900px",
         "laptop": "1200px",
@@ -15,6 +17,7 @@
       "separator": "@"
     },
     "colors": {
+      "enabled": true,
       "colors": {
         "red": "#f44336",
         "green": "#4caf50",
@@ -31,6 +34,26 @@
       "secondary": {
         "enabled": true,
         "sameAs": "green"
+      }
+    },
+    "spacing": {
+      "enabled": true,
+      "defaultSpacingValue": "32px",
+      "spacements": {
+        "xxxs": 0.125,
+        "xxs": 0.25,
+        "xs": 0.5,
+        "sm": 0.75,
+        "lg": 1.5,
+        "xl": 2,
+        "xxl": 4,
+        "nxxs": -0.25,
+        "nxs": -0.5,
+        "nsm": -0.75,
+        "n": -1,
+        "nlg": -1.5,
+        "nxl": -2,
+        "nxxl": -4
       }
     }
   },
@@ -89,6 +112,16 @@
         "initial": "",
         "useCustomColors": true,
         "useDefaultColors": true
+      },
+      "padding": {
+        "enabled": true,
+        "initial": "p",
+        "measureUnit": "px"
+      },
+      "margin": {
+        "enabled": true,
+        "initial": "m",
+        "measureUnit": "px"
       }
     }
   }
