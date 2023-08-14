@@ -1,16 +1,4 @@
 @media (min-width: 0em) {
-  ._hidden\@mobile {
-    border: 0 !important;
-    clip: rect(0 0 0 0) !important;
-    clip-path: inset(50%) !important;
-    height: 1px !important;
-    margin: -1px !important;
-    overflow: hidden !important;
-    padding: 0 !important;
-    position: absolute !important;
-    white-space: nowrap !important;
-    width: 1px !important;
-  }
   ._d-n\@mobile {
     display: none !important;
   }
@@ -79,6 +67,9 @@
   }
   ._po-t\@mobile {
     position: sticky !important;
+  }
+  ._c-p\@mobile {
+    cursor: pointer !important;
   }
   ._red\@mobile {
     color: #f44336 !important;
@@ -149,20 +140,50 @@
   ._p-nxxl\@mobile {
     padding: -128px !important;
   }
+  ._m-xxxs\@mobile {
+    margin: 4px !important;
+  }
+  ._m-xxs\@mobile {
+    margin: 8px !important;
+  }
+  ._m-xs\@mobile {
+    margin: 16px !important;
+  }
+  ._m-sm\@mobile {
+    margin: 24px !important;
+  }
+  ._m-lg\@mobile {
+    margin: 48px !important;
+  }
+  ._m-xl\@mobile {
+    margin: 64px !important;
+  }
+  ._m-xxl\@mobile {
+    margin: 128px !important;
+  }
+  ._m-nxxs\@mobile {
+    margin: -8px !important;
+  }
+  ._m-nxs\@mobile {
+    margin: -16px !important;
+  }
+  ._m-nsm\@mobile {
+    margin: -24px !important;
+  }
+  ._m-n\@mobile {
+    margin: -32px !important;
+  }
+  ._m-nlg\@mobile {
+    margin: -48px !important;
+  }
+  ._m-nxl\@mobile {
+    margin: -64px !important;
+  }
+  ._m-nxxl\@mobile {
+    margin: -128px !important;
+  }
 }
 @media (min-width: 37.5em) {
-  ._hidden\@tabletV {
-    border: 0 !important;
-    clip: rect(0 0 0 0) !important;
-    clip-path: inset(50%) !important;
-    height: 1px !important;
-    margin: -1px !important;
-    overflow: hidden !important;
-    padding: 0 !important;
-    position: absolute !important;
-    white-space: nowrap !important;
-    width: 1px !important;
-  }
   ._d-n\@tabletV {
     display: none !important;
   }
@@ -231,6 +252,9 @@
   }
   ._po-t\@tabletV {
     position: sticky !important;
+  }
+  ._c-p\@tabletV {
+    cursor: pointer !important;
   }
   ._red\@tabletV {
     color: #f44336 !important;
@@ -301,20 +325,50 @@
   ._p-nxxl\@tabletV {
     padding: -128px !important;
   }
+  ._m-xxxs\@tabletV {
+    margin: 4px !important;
+  }
+  ._m-xxs\@tabletV {
+    margin: 8px !important;
+  }
+  ._m-xs\@tabletV {
+    margin: 16px !important;
+  }
+  ._m-sm\@tabletV {
+    margin: 24px !important;
+  }
+  ._m-lg\@tabletV {
+    margin: 48px !important;
+  }
+  ._m-xl\@tabletV {
+    margin: 64px !important;
+  }
+  ._m-xxl\@tabletV {
+    margin: 128px !important;
+  }
+  ._m-nxxs\@tabletV {
+    margin: -8px !important;
+  }
+  ._m-nxs\@tabletV {
+    margin: -16px !important;
+  }
+  ._m-nsm\@tabletV {
+    margin: -24px !important;
+  }
+  ._m-n\@tabletV {
+    margin: -32px !important;
+  }
+  ._m-nlg\@tabletV {
+    margin: -48px !important;
+  }
+  ._m-nxl\@tabletV {
+    margin: -64px !important;
+  }
+  ._m-nxxl\@tabletV {
+    margin: -128px !important;
+  }
 }
 @media (min-width: 56.25em) {
-  ._hidden\@tabletH {
-    border: 0 !important;
-    clip: rect(0 0 0 0) !important;
-    clip-path: inset(50%) !important;
-    height: 1px !important;
-    margin: -1px !important;
-    overflow: hidden !important;
-    padding: 0 !important;
-    position: absolute !important;
-    white-space: nowrap !important;
-    width: 1px !important;
-  }
   ._d-n\@tabletH {
     display: none !important;
   }
@@ -383,6 +437,9 @@
   }
   ._po-t\@tabletH {
     position: sticky !important;
+  }
+  ._c-p\@tabletH {
+    cursor: pointer !important;
   }
   ._red\@tabletH {
     color: #f44336 !important;
@@ -453,20 +510,50 @@
   ._p-nxxl\@tabletH {
     padding: -128px !important;
   }
+  ._m-xxxs\@tabletH {
+    margin: 4px !important;
+  }
+  ._m-xxs\@tabletH {
+    margin: 8px !important;
+  }
+  ._m-xs\@tabletH {
+    margin: 16px !important;
+  }
+  ._m-sm\@tabletH {
+    margin: 24px !important;
+  }
+  ._m-lg\@tabletH {
+    margin: 48px !important;
+  }
+  ._m-xl\@tabletH {
+    margin: 64px !important;
+  }
+  ._m-xxl\@tabletH {
+    margin: 128px !important;
+  }
+  ._m-nxxs\@tabletH {
+    margin: -8px !important;
+  }
+  ._m-nxs\@tabletH {
+    margin: -16px !important;
+  }
+  ._m-nsm\@tabletH {
+    margin: -24px !important;
+  }
+  ._m-n\@tabletH {
+    margin: -32px !important;
+  }
+  ._m-nlg\@tabletH {
+    margin: -48px !important;
+  }
+  ._m-nxl\@tabletH {
+    margin: -64px !important;
+  }
+  ._m-nxxl\@tabletH {
+    margin: -128px !important;
+  }
 }
 @media (min-width: 75em) {
-  ._hidden\@laptop {
-    border: 0 !important;
-    clip: rect(0 0 0 0) !important;
-    clip-path: inset(50%) !important;
-    height: 1px !important;
-    margin: -1px !important;
-    overflow: hidden !important;
-    padding: 0 !important;
-    position: absolute !important;
-    white-space: nowrap !important;
-    width: 1px !important;
-  }
   ._d-n\@laptop {
     display: none !important;
   }
@@ -535,6 +622,9 @@
   }
   ._po-t\@laptop {
     position: sticky !important;
+  }
+  ._c-p\@laptop {
+    cursor: pointer !important;
   }
   ._red\@laptop {
     color: #f44336 !important;
@@ -605,20 +695,50 @@
   ._p-nxxl\@laptop {
     padding: -128px !important;
   }
+  ._m-xxxs\@laptop {
+    margin: 4px !important;
+  }
+  ._m-xxs\@laptop {
+    margin: 8px !important;
+  }
+  ._m-xs\@laptop {
+    margin: 16px !important;
+  }
+  ._m-sm\@laptop {
+    margin: 24px !important;
+  }
+  ._m-lg\@laptop {
+    margin: 48px !important;
+  }
+  ._m-xl\@laptop {
+    margin: 64px !important;
+  }
+  ._m-xxl\@laptop {
+    margin: 128px !important;
+  }
+  ._m-nxxs\@laptop {
+    margin: -8px !important;
+  }
+  ._m-nxs\@laptop {
+    margin: -16px !important;
+  }
+  ._m-nsm\@laptop {
+    margin: -24px !important;
+  }
+  ._m-n\@laptop {
+    margin: -32px !important;
+  }
+  ._m-nlg\@laptop {
+    margin: -48px !important;
+  }
+  ._m-nxl\@laptop {
+    margin: -64px !important;
+  }
+  ._m-nxxl\@laptop {
+    margin: -128px !important;
+  }
 }
 @media (min-width: 100em) {
-  ._hidden\@desktop {
-    border: 0 !important;
-    clip: rect(0 0 0 0) !important;
-    clip-path: inset(50%) !important;
-    height: 1px !important;
-    margin: -1px !important;
-    overflow: hidden !important;
-    padding: 0 !important;
-    position: absolute !important;
-    white-space: nowrap !important;
-    width: 1px !important;
-  }
   ._d-n\@desktop {
     display: none !important;
   }
@@ -688,6 +808,9 @@
   ._po-t\@desktop {
     position: sticky !important;
   }
+  ._c-p\@desktop {
+    cursor: pointer !important;
+  }
   ._red\@desktop {
     color: #f44336 !important;
   }
@@ -756,6 +879,48 @@
   }
   ._p-nxxl\@desktop {
     padding: -128px !important;
+  }
+  ._m-xxxs\@desktop {
+    margin: 4px !important;
+  }
+  ._m-xxs\@desktop {
+    margin: 8px !important;
+  }
+  ._m-xs\@desktop {
+    margin: 16px !important;
+  }
+  ._m-sm\@desktop {
+    margin: 24px !important;
+  }
+  ._m-lg\@desktop {
+    margin: 48px !important;
+  }
+  ._m-xl\@desktop {
+    margin: 64px !important;
+  }
+  ._m-xxl\@desktop {
+    margin: 128px !important;
+  }
+  ._m-nxxs\@desktop {
+    margin: -8px !important;
+  }
+  ._m-nxs\@desktop {
+    margin: -16px !important;
+  }
+  ._m-nsm\@desktop {
+    margin: -24px !important;
+  }
+  ._m-n\@desktop {
+    margin: -32px !important;
+  }
+  ._m-nlg\@desktop {
+    margin: -48px !important;
+  }
+  ._m-nxl\@desktop {
+    margin: -64px !important;
+  }
+  ._m-nxxl\@desktop {
+    margin: -128px !important;
   }
 }
 

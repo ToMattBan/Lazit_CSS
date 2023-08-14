@@ -1,0 +1,7 @@
+@mixin cursorUtility($breakpoint: null) {
+$utilityRules: (
+"p": pointer,
+);
+@include createUtility('cursor', 'c', $utilityRules, $breakpoint);
+}
+$utilities: map.set($utilities, 'cursor', cursorUtility());

@@ -15,12 +15,20 @@
           @include positionUtility($breakpoint)
         }
 
+        @if ($util == "cursor") {
+          @include cursorUtility($breakpoint)
+        }
+
         @if ($util == "textColor") {
           @include textColorUtility($breakpoint)
         }
 
         @if ($util == "padding") {
           @include paddingUtility($breakpoint)
+        }
+
+        @if ($util == "margin") {
+          @include marginUtility($breakpoint)
         }
       }
     }
