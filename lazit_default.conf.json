@@ -2,7 +2,7 @@
   "setup": {
     "prefix": "_",
     "separator": "_",
-    "defaultFontSize": "16px",
+    "defaultFontSize": "16px"
   },
   "settings": {
     "breakpoints": {
