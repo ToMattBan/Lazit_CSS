@@ -9,10 +9,16 @@ const throwError = function (error) {
   throw error;
 };
 
-const writeFile = function (content, filePath) {
-  fs.writeFile(filePath, content, (err) => {
-    if (err) throwError(err);
-  })
+const writeFile = function (content, filePath, sync = false) {
+  if (sync) {
+    fs.writeFileSync(filePath, content, (err) => {
+      if (err) throwError(err);
+    })
+  } else {
+    fs.writeFile(filePath, content, (err) => {
+      if (err) throwError(err);
+    })
+  }
 };
 
 const mergeAndDiscardDuplicates = function (json1, json2) {
@@ -141,12 +147,69 @@ const buildSettings = async function (settingsConfigs) {
     content += `\n@import './${settings}';`
   }
 
-  writeFile(content, `${baseSassPath}/1_settings/_mainSettings.scss`)
+  writeFile(content, `${baseSassPath}/1_settings/_mainSettings.scss`);
 };
+
+const buildUtilities = function (utilityConfigs) {
+  const utilities = utilityConfigs.utilities;
+  const utilitiesEnabled = [];
+
+  function checkUtilName(name) {
+    if (name == 'textColor') return 'color';
+    return name;
+  }
+
+  for (utility in utilities) {
+    const utilName = utilities[utility]
+    if (utilName.enabled) {
+      utilitiesEnabled.push(utility);
+
+      let content = `@mixin ${utility}Utility($breakpoint: null) {`;
+
+      if (utilName.rules) {
+        content += '\n$utilityRules: (';
+
+        for (rule in utilName.rules) {
+          content += `\n"${rule}": ${utilName.rules[rule]},`;
+        }
+        content += '\n);';
+      } else {
+        switch (utility) {
+          case 'textColor':
+            content += '\n$utilityRules: $colors;';
+            break;
+          case 'padding':
+          case 'margin':
+            content += `\n$measureUnit: "${utilName.measureUnit}";` +
+              '\n$utilityRules: convertSpaceList($spacing, $measureUnit);';
+            break;
+          default:
+            break;
+        }
+      }
+
+      content += `\n@include createUtility('${checkUtilName(utility)}', '${utilName.initial}', $utilityRules, $breakpoint);` +
+        '\n}' +
+        `\n$utilities: map.set($utilities, '${utility}', ${utility}Utility());`;
+
+      writeFile(content, `${baseSassPath}/7_utilities/_${utility}.scss`, true);
+
+      content = "";
+    }
+  }
+
+  let content = "";
+  for (utility of utilitiesEnabled) {
+    content += `\n@import './${utility}';`
+  }
+
+  writeFile(content, `${baseSassPath}/7_utilities/_mainUtilities.scss`)
+}
 
 const buildLib = function (lazitConfigs) {
   buildCore(lazitConfigs.setup);
   buildSettings(lazitConfigs.settings);
+  if (lazitConfigs.utilities.enabled) buildUtilities(lazitConfigs.utilities);
 };
 
 readJsons();
