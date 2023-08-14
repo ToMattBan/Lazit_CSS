@@ -1,0 +1,21 @@
+$defaultSpacingValue: 32px;
+$spacingFactors: (
+"xxxs": 0.125,
+"xxs": 0.25,
+"xs": 0.5,
+"sm": 0.75,
+"lg": 1.5,
+"xl": 2,
+"xxl": 4,
+"nxxs": -0.25,
+"nxs": -0.5,
+"nsm": -0.75,
+"n": -1,
+"nlg": -1.5,
+"nxl": -2,
+"nxxl": -4,
+);
+$spacing: ();
+@each $spaceName, $spaceFactor in $spacingFactors { 
+$spacing: map.set($spacing, $spaceName, $defaultSpacingValue * $spaceFactor);
+}

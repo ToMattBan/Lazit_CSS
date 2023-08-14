@@ -1,0 +1,6 @@
+@mixin paddingUtility($breakpoint: null) {
+$measureUnit: "px";
+$utilityRules: convertSpaceList($spacing, $measureUnit);
+@include createUtility('padding', 'p', $utilityRules, $breakpoint);
+}
+$utilities: map.set($utilities, 'padding', paddingUtility());

@@ -1,0 +1,5 @@
+@mixin textColorUtility($breakpoint: null) {
+$utilityRules: $colors;
+@include createUtility('color', '', $utilityRules, $breakpoint);
+}
+$utilities: map.set($utilities, 'textColor', textColorUtility());

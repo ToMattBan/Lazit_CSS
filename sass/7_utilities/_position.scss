@@ -1,0 +1,11 @@
+@mixin positionUtility($breakpoint: null) {
+$utilityRules: (
+"s": static,
+"r": relative,
+"a": absolute,
+"f": fixed,
+"t": sticky,
+);
+@include createUtility('position', 'po', $utilityRules, $breakpoint);
+}
+$utilities: map.set($utilities, 'position', positionUtility());

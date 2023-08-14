@@ -1,0 +1,41 @@
+@mixin createUtility($property, $initial, $utilityRules, $breakpoint) {
+
+  @each $indentifier, $rule in $utilityRules {
+    
+    @if ($initial == "") {
+      .#{$utilityPrefix}#{$indentifier}#{$breakpoint} {
+        #{$property}: $rule !important;
+      }
+    } @else {
+      .#{$utilityPrefix}#{$initial}#{$utilitySeparator}#{$indentifier}#{$breakpoint} {
+        #{$property}: $rule !important;
+      }
+    }
+  }
+};
+
+@function convert-px($value, $destination) {
+  @if ($destination == "rem") {
+    @return calc(($value / $defaultFontSize) * 1rem)
+  };
+
+  @if ($destination == "em") {
+    @return calc(($value / $defaultFontSize) * 1em)
+  };
+
+  @return $value;
+};
+
+@function convertSpaceList($list, $measureUnit) {
+  @if $measureUnit != "px" {
+    $newList: ();
+
+    @each $spaceName, $spaceValue in $list {
+      $newList: map.set($newList, $spaceName, convert-px($spaceValue, $measureUnit))
+    }
+
+    $list: $newList;
+  }
+
+  @return $list;
+}
