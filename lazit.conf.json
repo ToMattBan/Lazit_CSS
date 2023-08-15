@@ -1,1 +1,12 @@
-{}
+{
+  "setup": {
+    "separator": ""
+  },
+  "utilities": {
+    "utilities": {
+      "display": {
+        "enabled": false
+      }
+    }
+  }
+}

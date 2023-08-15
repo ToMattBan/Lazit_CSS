@@ -27,6 +27,8 @@ const mergeAndDiscardDuplicates = function (json1, json2) {
   for (const key in json1) {
     if (!mergedJson.hasOwnProperty(key)) {
       mergedJson[key] = json1[key];
+    } else if (typeof json1[key] === 'object' && typeof mergedJson[key] === 'object') {
+      mergedJson[key] = mergeAndDiscardDuplicates(json1[key], mergedJson[key]);
     }
   }
 
@@ -48,13 +50,7 @@ const readJsons = function () {
     if (!data) throwError("Couldn't read the config JSON");
 
     data = JSON.parse(data);
-    lazitConfigs = data;
-
-    for (key in defaultJson) {
-      if (!data[key]) {
-        lazitConfigs[key] = defaultJson[key];
-      }
-    }
+    lazitConfigs = mergeAndDiscardDuplicates(defaultJson, data);
 
     buildLib(lazitConfigs);
     return;
@@ -154,47 +150,49 @@ const buildUtilities = function (utilityConfigs) {
   const utilities = utilityConfigs.utilities;
   const utilitiesEnabled = [];
 
-  function checkUtilName(name) {
-    if (name == 'textColor') return 'color';
-    return name;
-  }
+  if (lazitConfigs.utilities.enabled) {
+    function checkUtilName(name) {
+      if (name == 'textColor') return 'color';
+      return name;
+    }
 
-  for (utility in utilities) {
-    const utilName = utilities[utility]
-    if (utilName.enabled) {
-      utilitiesEnabled.push(utility);
+    for (utility in utilities) {
+      const utilName = utilities[utility]
+      if (utilName.enabled) {
+        utilitiesEnabled.push(utility);
 
-      let content = `@mixin ${utility}Utility($breakpoint: null) {`;
+        let content = `@mixin ${utility}Utility($breakpoint: null) {`;
 
-      if (utilName.rules) {
-        content += '\n$utilityRules: (';
+        if (utilName.rules) {
+          content += '\n$utilityRules: (';
 
-        for (rule in utilName.rules) {
-          content += `\n"${rule}": ${utilName.rules[rule]},`;
+          for (rule in utilName.rules) {
+            content += `\n"${rule}": ${utilName.rules[rule]},`;
+          }
+          content += '\n);';
+        } else {
+          switch (utility) {
+            case 'textColor':
+              content += '\n$utilityRules: $colors;';
+              break;
+            case 'padding':
+            case 'margin':
+              content += `\n$measureUnit: "${utilName.measureUnit}";` +
+                '\n$utilityRules: convertSpaceList($spacing, $measureUnit);';
+              break;
+            default:
+              break;
+          }
         }
-        content += '\n);';
-      } else {
-        switch (utility) {
-          case 'textColor':
-            content += '\n$utilityRules: $colors;';
-            break;
-          case 'padding':
-          case 'margin':
-            content += `\n$measureUnit: "${utilName.measureUnit}";` +
-              '\n$utilityRules: convertSpaceList($spacing, $measureUnit);';
-            break;
-          default:
-            break;
-        }
+
+        content += `\n@include createUtility('${checkUtilName(utility)}', '${utilName.initial}', $utilityRules, $breakpoint);` +
+          '\n}' +
+          `\n$utilities: map.set($utilities, '${utility}', ${utility}Utility());`;
+
+        writeFile(content, `${baseSassPath}/7_utilities/_${utility}.scss`, true);
+
+        content = "";
       }
-
-      content += `\n@include createUtility('${checkUtilName(utility)}', '${utilName.initial}', $utilityRules, $breakpoint);` +
-        '\n}' +
-        `\n$utilities: map.set($utilities, '${utility}', ${utility}Utility());`;
-
-      writeFile(content, `${baseSassPath}/7_utilities/_${utility}.scss`, true);
-
-      content = "";
     }
   }
 
@@ -209,7 +207,7 @@ const buildUtilities = function (utilityConfigs) {
 const buildLib = function (lazitConfigs) {
   buildCore(lazitConfigs.setup);
   buildSettings(lazitConfigs.settings);
-  if (lazitConfigs.utilities.enabled) buildUtilities(lazitConfigs.utilities);
+  buildUtilities(lazitConfigs.utilities);
 };
 
 readJsons();

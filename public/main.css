@@ -1,74 +1,20 @@
 @media (min-width: 0em) {
-  ._d-n\@mobile {
-    display: none !important;
-  }
-  ._d-i\@mobile {
-    display: inline !important;
-  }
-  ._d-b\@mobile {
-    display: block !important;
-  }
-  ._d-li\@mobile {
-    display: list-item !important;
-  }
-  ._d-ib\@mobile {
-    display: inline-block !important;
-  }
-  ._d-it\@mobile {
-    display: inline-table !important;
-  }
-  ._d-t\@mobile {
-    display: table !important;
-  }
-  ._d-tc\@mobile {
-    display: table-cell !important;
-  }
-  ._d-tcl\@mobile {
-    display: table-column !important;
-  }
-  ._d-tcg\@mobile {
-    display: table-column-group !important;
-  }
-  ._d-tfg\@mobile {
-    display: table-footer-group !important;
-  }
-  ._d-thg\@mobile {
-    display: table-header-group !important;
-  }
-  ._d-tr\@mobile {
-    display: table-row !important;
-  }
-  ._d-trg\@mobile {
-    display: table-row-group !important;
-  }
-  ._d-f\@mobile {
-    display: flex !important;
-  }
-  ._d-if\@mobile {
-    display: inline-flex !important;
-  }
-  ._d-g\@mobile {
-    display: grid !important;
-  }
-  ._d-ig\@mobile {
-    display: inline-grid !important;
-  }
-  ._po-s\@mobile {
+  ._pos\@mobile {
     position: static !important;
   }
-  ._po-r\@mobile {
+  ._por\@mobile {
     position: relative !important;
   }
-  ._po-a\@mobile {
+  ._poa\@mobile {
     position: absolute !important;
   }
-  ._po-f\@mobile {
+  ._pof\@mobile {
     position: fixed !important;
   }
-  ._po-t\@mobile {
+  ._pot\@mobile {
     position: sticky !important;
   }
-  ._c-p\@mobile {
+  ._cp\@mobile {
     cursor: pointer !important;
   }
   ._red\@mobile {
@@ -98,162 +44,108 @@
   ._secondary\@mobile {
     color: #4caf50 !important;
   }
-  ._p-xxxs\@mobile {
+  ._pxxxs\@mobile {
     padding: 4px !important;
   }
-  ._p-xxs\@mobile {
+  ._pxxs\@mobile {
     padding: 8px !important;
   }
-  ._p-xs\@mobile {
+  ._pxs\@mobile {
     padding: 16px !important;
   }
-  ._p-sm\@mobile {
+  ._psm\@mobile {
     padding: 24px !important;
   }
-  ._p-lg\@mobile {
+  ._plg\@mobile {
     padding: 48px !important;
   }
-  ._p-xl\@mobile {
+  ._pxl\@mobile {
     padding: 64px !important;
   }
-  ._p-xxl\@mobile {
+  ._pxxl\@mobile {
     padding: 128px !important;
   }
-  ._p-nxxs\@mobile {
+  ._pnxxs\@mobile {
     padding: -8px !important;
   }
-  ._p-nxs\@mobile {
+  ._pnxs\@mobile {
     padding: -16px !important;
   }
-  ._p-nsm\@mobile {
+  ._pnsm\@mobile {
     padding: -24px !important;
   }
-  ._p-n\@mobile {
+  ._pn\@mobile {
     padding: -32px !important;
   }
-  ._p-nlg\@mobile {
+  ._pnlg\@mobile {
     padding: -48px !important;
   }
-  ._p-nxl\@mobile {
+  ._pnxl\@mobile {
     padding: -64px !important;
   }
-  ._p-nxxl\@mobile {
+  ._pnxxl\@mobile {
     padding: -128px !important;
   }
-  ._m-xxxs\@mobile {
+  ._mxxxs\@mobile {
     margin: 4px !important;
   }
-  ._m-xxs\@mobile {
+  ._mxxs\@mobile {
     margin: 8px !important;
   }
-  ._m-xs\@mobile {
+  ._mxs\@mobile {
     margin: 16px !important;
   }
-  ._m-sm\@mobile {
+  ._msm\@mobile {
     margin: 24px !important;
   }
-  ._m-lg\@mobile {
+  ._mlg\@mobile {
     margin: 48px !important;
   }
-  ._m-xl\@mobile {
+  ._mxl\@mobile {
     margin: 64px !important;
   }
-  ._m-xxl\@mobile {
+  ._mxxl\@mobile {
     margin: 128px !important;
   }
-  ._m-nxxs\@mobile {
+  ._mnxxs\@mobile {
     margin: -8px !important;
   }
-  ._m-nxs\@mobile {
+  ._mnxs\@mobile {
     margin: -16px !important;
   }
-  ._m-nsm\@mobile {
+  ._mnsm\@mobile {
     margin: -24px !important;
   }
-  ._m-n\@mobile {
+  ._mn\@mobile {
     margin: -32px !important;
   }
-  ._m-nlg\@mobile {
+  ._mnlg\@mobile {
     margin: -48px !important;
   }
-  ._m-nxl\@mobile {
+  ._mnxl\@mobile {
     margin: -64px !important;
   }
-  ._m-nxxl\@mobile {
+  ._mnxxl\@mobile {
     margin: -128px !important;
   }
 }
 @media (min-width: 37.5em) {
-  ._d-n\@tabletV {
-    display: none !important;
-  }
-  ._d-i\@tabletV {
-    display: inline !important;
-  }
-  ._d-b\@tabletV {
-    display: block !important;
-  }
-  ._d-li\@tabletV {
-    display: list-item !important;
-  }
-  ._d-ib\@tabletV {
-    display: inline-block !important;
-  }
-  ._d-it\@tabletV {
-    display: inline-table !important;
-  }
-  ._d-t\@tabletV {
-    display: table !important;
-  }
-  ._d-tc\@tabletV {
-    display: table-cell !important;
-  }
-  ._d-tcl\@tabletV {
-    display: table-column !important;
-  }
-  ._d-tcg\@tabletV {
-    display: table-column-group !important;
-  }
-  ._d-tfg\@tabletV {
-    display: table-footer-group !important;
-  }
-  ._d-thg\@tabletV {
-    display: table-header-group !important;
-  }
-  ._d-tr\@tabletV {
-    display: table-row !important;
-  }
-  ._d-trg\@tabletV {
-    display: table-row-group !important;
-  }
-  ._d-f\@tabletV {
-    display: flex !important;
-  }
-  ._d-if\@tabletV {
-    display: inline-flex !important;
-  }
-  ._d-g\@tabletV {
-    display: grid !important;
-  }
-  ._d-ig\@tabletV {
-    display: inline-grid !important;
-  }
-  ._po-s\@tabletV {
+  ._pos\@tabletV {
     position: static !important;
   }
-  ._po-r\@tabletV {
+  ._por\@tabletV {
     position: relative !important;
   }
-  ._po-a\@tabletV {
+  ._poa\@tabletV {
     position: absolute !important;
   }
-  ._po-f\@tabletV {
+  ._pof\@tabletV {
     position: fixed !important;
   }
-  ._po-t\@tabletV {
+  ._pot\@tabletV {
     position: sticky !important;
   }
-  ._c-p\@tabletV {
+  ._cp\@tabletV {
     cursor: pointer !important;
   }
   ._red\@tabletV {
@@ -283,162 +175,108 @@
   ._secondary\@tabletV {
     color: #4caf50 !important;
   }
-  ._p-xxxs\@tabletV {
+  ._pxxxs\@tabletV {
     padding: 4px !important;
   }
-  ._p-xxs\@tabletV {
+  ._pxxs\@tabletV {
     padding: 8px !important;
   }
-  ._p-xs\@tabletV {
+  ._pxs\@tabletV {
     padding: 16px !important;
   }
-  ._p-sm\@tabletV {
+  ._psm\@tabletV {
     padding: 24px !important;
   }
-  ._p-lg\@tabletV {
+  ._plg\@tabletV {
     padding: 48px !important;
   }
-  ._p-xl\@tabletV {
+  ._pxl\@tabletV {
     padding: 64px !important;
   }
-  ._p-xxl\@tabletV {
+  ._pxxl\@tabletV {
     padding: 128px !important;
   }
-  ._p-nxxs\@tabletV {
+  ._pnxxs\@tabletV {
     padding: -8px !important;
   }
-  ._p-nxs\@tabletV {
+  ._pnxs\@tabletV {
     padding: -16px !important;
   }
-  ._p-nsm\@tabletV {
+  ._pnsm\@tabletV {
     padding: -24px !important;
   }
-  ._p-n\@tabletV {
+  ._pn\@tabletV {
     padding: -32px !important;
   }
-  ._p-nlg\@tabletV {
+  ._pnlg\@tabletV {
     padding: -48px !important;
   }
-  ._p-nxl\@tabletV {
+  ._pnxl\@tabletV {
     padding: -64px !important;
   }
-  ._p-nxxl\@tabletV {
+  ._pnxxl\@tabletV {
     padding: -128px !important;
   }
-  ._m-xxxs\@tabletV {
+  ._mxxxs\@tabletV {
     margin: 4px !important;
   }
-  ._m-xxs\@tabletV {
+  ._mxxs\@tabletV {
     margin: 8px !important;
   }
-  ._m-xs\@tabletV {
+  ._mxs\@tabletV {
     margin: 16px !important;
   }
-  ._m-sm\@tabletV {
+  ._msm\@tabletV {
     margin: 24px !important;
   }
-  ._m-lg\@tabletV {
+  ._mlg\@tabletV {
     margin: 48px !important;
   }
-  ._m-xl\@tabletV {
+  ._mxl\@tabletV {
     margin: 64px !important;
   }
-  ._m-xxl\@tabletV {
+  ._mxxl\@tabletV {
     margin: 128px !important;
   }
-  ._m-nxxs\@tabletV {
+  ._mnxxs\@tabletV {
     margin: -8px !important;
   }
-  ._m-nxs\@tabletV {
+  ._mnxs\@tabletV {
     margin: -16px !important;
   }
-  ._m-nsm\@tabletV {
+  ._mnsm\@tabletV {
     margin: -24px !important;
   }
-  ._m-n\@tabletV {
+  ._mn\@tabletV {
     margin: -32px !important;
   }
-  ._m-nlg\@tabletV {
+  ._mnlg\@tabletV {
     margin: -48px !important;
   }
-  ._m-nxl\@tabletV {
+  ._mnxl\@tabletV {
     margin: -64px !important;
   }
-  ._m-nxxl\@tabletV {
+  ._mnxxl\@tabletV {
     margin: -128px !important;
   }
 }
 @media (min-width: 56.25em) {
-  ._d-n\@tabletH {
-    display: none !important;
-  }
-  ._d-i\@tabletH {
-    display: inline !important;
-  }
-  ._d-b\@tabletH {
-    display: block !important;
-  }
-  ._d-li\@tabletH {
-    display: list-item !important;
-  }
-  ._d-ib\@tabletH {
-    display: inline-block !important;
-  }
-  ._d-it\@tabletH {
-    display: inline-table !important;
-  }
-  ._d-t\@tabletH {
-    display: table !important;
-  }
-  ._d-tc\@tabletH {
-    display: table-cell !important;
-  }
-  ._d-tcl\@tabletH {
-    display: table-column !important;
-  }
-  ._d-tcg\@tabletH {
-    display: table-column-group !important;
-  }
-  ._d-tfg\@tabletH {
-    display: table-footer-group !important;
-  }
-  ._d-thg\@tabletH {
-    display: table-header-group !important;
-  }
-  ._d-tr\@tabletH {
-    display: table-row !important;
-  }
-  ._d-trg\@tabletH {
-    display: table-row-group !important;
-  }
-  ._d-f\@tabletH {
-    display: flex !important;
-  }
-  ._d-if\@tabletH {
-    display: inline-flex !important;
-  }
-  ._d-g\@tabletH {
-    display: grid !important;
-  }
-  ._d-ig\@tabletH {
-    display: inline-grid !important;
-  }
-  ._po-s\@tabletH {
+  ._pos\@tabletH {
     position: static !important;
   }
-  ._po-r\@tabletH {
+  ._por\@tabletH {
     position: relative !important;
   }
-  ._po-a\@tabletH {
+  ._poa\@tabletH {
     position: absolute !important;
   }
-  ._po-f\@tabletH {
+  ._pof\@tabletH {
     position: fixed !important;
   }
-  ._po-t\@tabletH {
+  ._pot\@tabletH {
     position: sticky !important;
   }
-  ._c-p\@tabletH {
+  ._cp\@tabletH {
     cursor: pointer !important;
   }
   ._red\@tabletH {
@@ -468,162 +306,108 @@
   ._secondary\@tabletH {
     color: #4caf50 !important;
   }
-  ._p-xxxs\@tabletH {
+  ._pxxxs\@tabletH {
     padding: 4px !important;
   }
-  ._p-xxs\@tabletH {
+  ._pxxs\@tabletH {
     padding: 8px !important;
   }
-  ._p-xs\@tabletH {
+  ._pxs\@tabletH {
     padding: 16px !important;
   }
-  ._p-sm\@tabletH {
+  ._psm\@tabletH {
     padding: 24px !important;
   }
-  ._p-lg\@tabletH {
+  ._plg\@tabletH {
     padding: 48px !important;
   }
-  ._p-xl\@tabletH {
+  ._pxl\@tabletH {
     padding: 64px !important;
   }
-  ._p-xxl\@tabletH {
+  ._pxxl\@tabletH {
     padding: 128px !important;
   }
-  ._p-nxxs\@tabletH {
+  ._pnxxs\@tabletH {
     padding: -8px !important;
   }
-  ._p-nxs\@tabletH {
+  ._pnxs\@tabletH {
     padding: -16px !important;
   }
-  ._p-nsm\@tabletH {
+  ._pnsm\@tabletH {
     padding: -24px !important;
   }
-  ._p-n\@tabletH {
+  ._pn\@tabletH {
     padding: -32px !important;
   }
-  ._p-nlg\@tabletH {
+  ._pnlg\@tabletH {
     padding: -48px !important;
   }
-  ._p-nxl\@tabletH {
+  ._pnxl\@tabletH {
     padding: -64px !important;
   }
-  ._p-nxxl\@tabletH {
+  ._pnxxl\@tabletH {
     padding: -128px !important;
   }
-  ._m-xxxs\@tabletH {
+  ._mxxxs\@tabletH {
     margin: 4px !important;
   }
-  ._m-xxs\@tabletH {
+  ._mxxs\@tabletH {
     margin: 8px !important;
   }
-  ._m-xs\@tabletH {
+  ._mxs\@tabletH {
     margin: 16px !important;
   }
-  ._m-sm\@tabletH {
+  ._msm\@tabletH {
     margin: 24px !important;
   }
-  ._m-lg\@tabletH {
+  ._mlg\@tabletH {
     margin: 48px !important;
   }
-  ._m-xl\@tabletH {
+  ._mxl\@tabletH {
     margin: 64px !important;
   }
-  ._m-xxl\@tabletH {
+  ._mxxl\@tabletH {
     margin: 128px !important;
   }
-  ._m-nxxs\@tabletH {
+  ._mnxxs\@tabletH {
     margin: -8px !important;
   }
-  ._m-nxs\@tabletH {
+  ._mnxs\@tabletH {
     margin: -16px !important;
   }
-  ._m-nsm\@tabletH {
+  ._mnsm\@tabletH {
     margin: -24px !important;
   }
-  ._m-n\@tabletH {
+  ._mn\@tabletH {
     margin: -32px !important;
   }
-  ._m-nlg\@tabletH {
+  ._mnlg\@tabletH {
     margin: -48px !important;
   }
-  ._m-nxl\@tabletH {
+  ._mnxl\@tabletH {
     margin: -64px !important;
   }
-  ._m-nxxl\@tabletH {
+  ._mnxxl\@tabletH {
     margin: -128px !important;
   }
 }
 @media (min-width: 75em) {
-  ._d-n\@laptop {
-    display: none !important;
-  }
-  ._d-i\@laptop {
-    display: inline !important;
-  }
-  ._d-b\@laptop {
-    display: block !important;
-  }
-  ._d-li\@laptop {
-    display: list-item !important;
-  }
-  ._d-ib\@laptop {
-    display: inline-block !important;
-  }
-  ._d-it\@laptop {
-    display: inline-table !important;
-  }
-  ._d-t\@laptop {
-    display: table !important;
-  }
-  ._d-tc\@laptop {
-    display: table-cell !important;
-  }
-  ._d-tcl\@laptop {
-    display: table-column !important;
-  }
-  ._d-tcg\@laptop {
-    display: table-column-group !important;
-  }
-  ._d-tfg\@laptop {
-    display: table-footer-group !important;
-  }
-  ._d-thg\@laptop {
-    display: table-header-group !important;
-  }
-  ._d-tr\@laptop {
-    display: table-row !important;
-  }
-  ._d-trg\@laptop {
-    display: table-row-group !important;
-  }
-  ._d-f\@laptop {
-    display: flex !important;
-  }
-  ._d-if\@laptop {
-    display: inline-flex !important;
-  }
-  ._d-g\@laptop {
-    display: grid !important;
-  }
-  ._d-ig\@laptop {
-    display: inline-grid !important;
-  }
-  ._po-s\@laptop {
+  ._pos\@laptop {
     position: static !important;
   }
-  ._po-r\@laptop {
+  ._por\@laptop {
     position: relative !important;
   }
-  ._po-a\@laptop {
+  ._poa\@laptop {
     position: absolute !important;
   }
-  ._po-f\@laptop {
+  ._pof\@laptop {
     position: fixed !important;
   }
-  ._po-t\@laptop {
+  ._pot\@laptop {
     position: sticky !important;
   }
-  ._c-p\@laptop {
+  ._cp\@laptop {
     cursor: pointer !important;
   }
   ._red\@laptop {
@@ -653,162 +437,108 @@
   ._secondary\@laptop {
     color: #4caf50 !important;
   }
-  ._p-xxxs\@laptop {
+  ._pxxxs\@laptop {
     padding: 4px !important;
   }
-  ._p-xxs\@laptop {
+  ._pxxs\@laptop {
     padding: 8px !important;
   }
-  ._p-xs\@laptop {
+  ._pxs\@laptop {
     padding: 16px !important;
   }
-  ._p-sm\@laptop {
+  ._psm\@laptop {
     padding: 24px !important;
   }
-  ._p-lg\@laptop {
+  ._plg\@laptop {
     padding: 48px !important;
   }
-  ._p-xl\@laptop {
+  ._pxl\@laptop {
     padding: 64px !important;
   }
-  ._p-xxl\@laptop {
+  ._pxxl\@laptop {
     padding: 128px !important;
   }
-  ._p-nxxs\@laptop {
+  ._pnxxs\@laptop {
     padding: -8px !important;
   }
-  ._p-nxs\@laptop {
+  ._pnxs\@laptop {
     padding: -16px !important;
   }
-  ._p-nsm\@laptop {
+  ._pnsm\@laptop {
     padding: -24px !important;
   }
-  ._p-n\@laptop {
+  ._pn\@laptop {
     padding: -32px !important;
   }
-  ._p-nlg\@laptop {
+  ._pnlg\@laptop {
     padding: -48px !important;
   }
-  ._p-nxl\@laptop {
+  ._pnxl\@laptop {
     padding: -64px !important;
   }
-  ._p-nxxl\@laptop {
+  ._pnxxl\@laptop {
     padding: -128px !important;
   }
-  ._m-xxxs\@laptop {
+  ._mxxxs\@laptop {
     margin: 4px !important;
   }
-  ._m-xxs\@laptop {
+  ._mxxs\@laptop {
     margin: 8px !important;
   }
-  ._m-xs\@laptop {
+  ._mxs\@laptop {
     margin: 16px !important;
   }
-  ._m-sm\@laptop {
+  ._msm\@laptop {
     margin: 24px !important;
   }
-  ._m-lg\@laptop {
+  ._mlg\@laptop {
     margin: 48px !important;
   }
-  ._m-xl\@laptop {
+  ._mxl\@laptop {
     margin: 64px !important;
   }
-  ._m-xxl\@laptop {
+  ._mxxl\@laptop {
     margin: 128px !important;
   }
-  ._m-nxxs\@laptop {
+  ._mnxxs\@laptop {
     margin: -8px !important;
   }
-  ._m-nxs\@laptop {
+  ._mnxs\@laptop {
     margin: -16px !important;
   }
-  ._m-nsm\@laptop {
+  ._mnsm\@laptop {
     margin: -24px !important;
   }
-  ._m-n\@laptop {
+  ._mn\@laptop {
     margin: -32px !important;
   }
-  ._m-nlg\@laptop {
+  ._mnlg\@laptop {
     margin: -48px !important;
   }
-  ._m-nxl\@laptop {
+  ._mnxl\@laptop {
     margin: -64px !important;
   }
-  ._m-nxxl\@laptop {
+  ._mnxxl\@laptop {
     margin: -128px !important;
   }
 }
 @media (min-width: 100em) {
-  ._d-n\@desktop {
-    display: none !important;
-  }
-  ._d-i\@desktop {
-    display: inline !important;
-  }
-  ._d-b\@desktop {
-    display: block !important;
-  }
-  ._d-li\@desktop {
-    display: list-item !important;
-  }
-  ._d-ib\@desktop {
-    display: inline-block !important;
-  }
-  ._d-it\@desktop {
-    display: inline-table !important;
-  }
-  ._d-t\@desktop {
-    display: table !important;
-  }
-  ._d-tc\@desktop {
-    display: table-cell !important;
-  }
-  ._d-tcl\@desktop {
-    display: table-column !important;
-  }
-  ._d-tcg\@desktop {
-    display: table-column-group !important;
-  }
-  ._d-tfg\@desktop {
-    display: table-footer-group !important;
-  }
-  ._d-thg\@desktop {
-    display: table-header-group !important;
-  }
-  ._d-tr\@desktop {
-    display: table-row !important;
-  }
-  ._d-trg\@desktop {
-    display: table-row-group !important;
-  }
-  ._d-f\@desktop {
-    display: flex !important;
-  }
-  ._d-if\@desktop {
-    display: inline-flex !important;
-  }
-  ._d-g\@desktop {
-    display: grid !important;
-  }
-  ._d-ig\@desktop {
-    display: inline-grid !important;
-  }
-  ._po-s\@desktop {
+  ._pos\@desktop {
     position: static !important;
   }
-  ._po-r\@desktop {
+  ._por\@desktop {
     position: relative !important;
   }
-  ._po-a\@desktop {
+  ._poa\@desktop {
     position: absolute !important;
   }
-  ._po-f\@desktop {
+  ._pof\@desktop {
     position: fixed !important;
   }
-  ._po-t\@desktop {
+  ._pot\@desktop {
     position: sticky !important;
   }
-  ._c-p\@desktop {
+  ._cp\@desktop {
     cursor: pointer !important;
   }
   ._red\@desktop {
@@ -838,88 +568,88 @@
   ._secondary\@desktop {
     color: #4caf50 !important;
   }
-  ._p-xxxs\@desktop {
+  ._pxxxs\@desktop {
     padding: 4px !important;
   }
-  ._p-xxs\@desktop {
+  ._pxxs\@desktop {
     padding: 8px !important;
   }
-  ._p-xs\@desktop {
+  ._pxs\@desktop {
     padding: 16px !important;
   }
-  ._p-sm\@desktop {
+  ._psm\@desktop {
     padding: 24px !important;
   }
-  ._p-lg\@desktop {
+  ._plg\@desktop {
     padding: 48px !important;
   }
-  ._p-xl\@desktop {
+  ._pxl\@desktop {
     padding: 64px !important;
   }
-  ._p-xxl\@desktop {
+  ._pxxl\@desktop {
     padding: 128px !important;
   }
-  ._p-nxxs\@desktop {
+  ._pnxxs\@desktop {
     padding: -8px !important;
   }
-  ._p-nxs\@desktop {
+  ._pnxs\@desktop {
     padding: -16px !important;
   }
-  ._p-nsm\@desktop {
+  ._pnsm\@desktop {
     padding: -24px !important;
   }
-  ._p-n\@desktop {
+  ._pn\@desktop {
     padding: -32px !important;
   }
-  ._p-nlg\@desktop {
+  ._pnlg\@desktop {
     padding: -48px !important;
   }
-  ._p-nxl\@desktop {
+  ._pnxl\@desktop {
     padding: -64px !important;
   }
-  ._p-nxxl\@desktop {
+  ._pnxxl\@desktop {
     padding: -128px !important;
   }
-  ._m-xxxs\@desktop {
+  ._mxxxs\@desktop {
     margin: 4px !important;
   }
-  ._m-xxs\@desktop {
+  ._mxxs\@desktop {
     margin: 8px !important;
   }
-  ._m-xs\@desktop {
+  ._mxs\@desktop {
     margin: 16px !important;
   }
-  ._m-sm\@desktop {
+  ._msm\@desktop {
     margin: 24px !important;
   }
-  ._m-lg\@desktop {
+  ._mlg\@desktop {
     margin: 48px !important;
   }
-  ._m-xl\@desktop {
+  ._mxl\@desktop {
     margin: 64px !important;
   }
-  ._m-xxl\@desktop {
+  ._mxxl\@desktop {
     margin: 128px !important;
   }
-  ._m-nxxs\@desktop {
+  ._mnxxs\@desktop {
     margin: -8px !important;
   }
-  ._m-nxs\@desktop {
+  ._mnxs\@desktop {
     margin: -16px !important;
   }
-  ._m-nsm\@desktop {
+  ._mnsm\@desktop {
     margin: -24px !important;
   }
-  ._m-n\@desktop {
+  ._mn\@desktop {
     margin: -32px !important;
   }
-  ._m-nlg\@desktop {
+  ._mnlg\@desktop {
     margin: -48px !important;
   }
-  ._m-nxl\@desktop {
+  ._mnxl\@desktop {
     margin: -64px !important;
   }
-  ._m-nxxl\@desktop {
+  ._mnxxl\@desktop {
     margin: -128px !important;
   }
 }
