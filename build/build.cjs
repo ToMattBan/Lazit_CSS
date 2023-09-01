@@ -23,11 +23,12 @@ const writeFile = function (content, filePath, sync = false) {
 
 const mergeAndDiscardDuplicates = function (json1, json2) {
   const mergedJson = { ...json2 };
+  const notToMerge = ['rules', 'breakpoints', 'colors', 'spacements']
 
   for (const key in json1) {
     if (!mergedJson.hasOwnProperty(key)) {
       mergedJson[key] = json1[key];
-    } else if (typeof json1[key] === 'object' && typeof mergedJson[key] === 'object') {
+    } else if (!notToMerge.includes(key) && typeof json1[key] === 'object' && typeof mergedJson[key] === 'object') {
       mergedJson[key] = mergeAndDiscardDuplicates(json1[key], mergedJson[key]);
     }
   }
