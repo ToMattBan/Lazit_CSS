@@ -1,3 +1,33 @@
+@each $util, $mixin in $utilities {
+  @if ($util == "display") {
+    @include displayUtility()
+  }
+
+  @if ($util == "position") {
+    @include positionUtility()
+  }
+
+  @if ($util == "cursor") {
+    @include cursorUtility()
+  }
+
+  @if ($util == "textColor") {
+    @include textColorUtility()
+  }
+
+  @if ($util == "backgroundColor") {
+    @include backgroundColorUtility()
+  }
+
+  @if ($util == "padding") {
+    @include paddingUtility()
+  }
+
+  @if ($util == "margin") {
+    @include marginUtility()
+  }
+}
+
 @if (variable-exists(mq-breakpoints)) {
 
   @each $breakpointName,
