@@ -28,13 +28,9 @@
         "yellow": "rgb(170, 170, 36)",
         "orange": "#ff7700"
       },
-      "projectMainColors": {
-        "primary": {
-          "sameAs": "red"
-        },
-        "secondary": {
-          "sameAs": "green"
-        }
+      "colorAlias": {
+        "primary": "red",
+        "secondary": "green"
       }
     },
     "spacing": {

@@ -112,8 +112,8 @@ const buildSettings = async function (settingsConfigs) {
       '\n  @return map.get($colors, $key);' +
       '\n}';
 
-    for (mainColor in colorsConfigs.projectMainColors) {
-      content += `\n$colors: map.set($colors, "${mainColor}", getColor("${colorsConfigs.projectMainColors[mainColor].sameAs}"));`
+    for (mainColor in colorsConfigs.colorAlias) {
+      content += `\n$colors: map.set($colors, "${mainColor}", getColor("${colorsConfigs.colorAlias[mainColor]}"));`
     }
 
     writeFile(content, `${baseSassPath}/1_settings/_colors.scss`);
