@@ -110,6 +110,12 @@
         "useCustomColors": true,
         "useDefaultColors": true
       },
+      "backgroundColor": {
+        "enabled": true,
+        "initial": "bg",
+        "useCustomColors": true,
+        "useDefaultColors": true
+      },
       "padding": {
         "enabled": true,
         "initial": "p",

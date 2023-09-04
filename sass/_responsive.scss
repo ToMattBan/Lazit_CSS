@@ -23,6 +23,10 @@
           @include textColorUtility($breakpoint)
         }
 
+        @if ($util == "backgroundColor") {
+          @include backgroundColorUtility($breakpoint)
+        }
+
         @if ($util == "padding") {
           @include paddingUtility($breakpoint)
         }

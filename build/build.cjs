@@ -154,6 +154,7 @@ const buildUtilities = function (utilityConfigs) {
   if (lazitConfigs.utilities.enabled) {
     function checkUtilName(name) {
       if (name == 'textColor') return 'color';
+      if (name == 'backgroundColor') return 'background-color';
       return name;
     }
 
@@ -174,6 +175,7 @@ const buildUtilities = function (utilityConfigs) {
         } else {
           switch (utility) {
             case 'textColor':
+            case 'backgroundColor':
               content += '\n$utilityRules: $colors;';
               break;
             case 'padding':
