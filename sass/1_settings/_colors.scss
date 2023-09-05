@@ -1,17 +1,15 @@
 $colors: (
+"red": #f44336,
+"green": #4caf50,
 "realBlack": #000,
 "black": #333,
-"lightBlack": #444,
-"darkBlack": #666,
-"white": #fff,
-"lightGray": #ccc,
-"orange": #ff5722,
-"blue": #2196F3,
-"green": #4caf50,
-"red": #f44336,
+"blue": #001690,
+"yellow": rgb(170, 170, 36),
+"orange": #ff7700,
 );
 @function getColor($key) {
   @return map.get($colors, $key);
 }
-$colors: map.set($colors, "background-color", getColor("black"));
+$colors: map.set($colors, "primary", getColor("red"));
+$colors: map.set($colors, "secondary", getColor("green"));
 $rootVars: map.set($rootVars, 'color', $colors);

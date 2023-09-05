@@ -1,7 +1,10 @@
 {
-  "name": "lazit-css",
-  "version": "0.0.0",
+  "name": "lazit",
+  "version": "1.0.0",
   "description": "A tool, like a hammer, but for CSS. Based on InvertedTriangle Architecture",
+  "bin": {
+    "build": "./build/build.cjs"
+  },
   "scripts": {
     "build": "npm run build:node && npm run build:sass",
     "build:node": "node ./build/build.cjs",
@@ -19,6 +22,8 @@
     "url": "git+https://github.com/ToMattBan/Lazit_CSS.git"
   },
   "files": [
+    "build",
+    "sass",
     "public/main.min.css"
   ],
   "keywords": [

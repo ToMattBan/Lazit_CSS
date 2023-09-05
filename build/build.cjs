@@ -1,8 +1,14 @@
+#!/usr/bin/env node
+
 var fs = require("fs");
 
 var lazitConfigs = {};
-const projectBasePath = process.cwd();
+const userPath = process.cwd();
+const isDev = userPath.includes('Lazit_CSS');
+
+const projectBasePath = userPath + `${isDev ? '' : '/node_modules/lazit'}`;
 const baseSassPath = projectBasePath + "/sass";
+
 const rootVarsEnabled = []
 
 const throwError = function (error) {
@@ -37,26 +43,40 @@ const mergeAndDiscardDuplicates = function (json1, json2) {
   return mergedJson;
 }
 
-const readJsons = function () {
+const readJsons = async function () {
   let defaultJson = {};
-  fs.readFile(`${projectBasePath}/build/lazit_default.conf.json`, "utf8", function (err, data) {
-    if (err) return throwError("Couldn't get the default json file");
-    if (!data) return throwError("Couldn't read the default JSON");
+
+  try {
+    const data = fs.readFileSync(`${projectBasePath}/build/lazit_default.conf.json`, 'utf8');
+    if (!data) {
+      return throwError("Couldn't read the default JSON");
+    }
 
     defaultJson = JSON.parse(data);
-    return;
-  });
+  } catch (err) {
+    return throwError("Couldn't get the default JSON file: " + err.message);
+  }
 
-  fs.readFile(`${projectBasePath}/lazit.conf.json`, "utf8", function (err, data) {
-    if (err) throwError("Couldn't get the config json file");
-    if (!data) throwError("Couldn't read the config JSON");
+  if (fs.existsSync(`${userPath}/lazit.conf.json`)) {
+    try {
+      const data = fs.readFileSync(`${userPath}/lazit.conf.json`, 'utf8');
+      if (!data) {
+        return throwError("Couldn't read the user JSON");
+      }
 
-    data = JSON.parse(data);
-    lazitConfigs = mergeAndDiscardDuplicates(defaultJson, data);
+      data = JSON.parse(data);
+      lazitConfigs = mergeAndDiscardDuplicates(defaultJson, data);
 
+      buildLib(lazitConfigs);
+      return;
+    } catch (err) {
+      return throwError("Couldn't get the user JSON file: " + err.message);
+    }
+  } else {
+    lazitConfigs = defaultJson
     buildLib(lazitConfigs);
     return;
-  });
+  }
 };
 
 const buildCore = function (setupConfigs) {
@@ -168,7 +188,7 @@ const buildUtilities = function (utilityConfigs) {
   const utilities = utilityConfigs.utilities;
   const utilitiesEnabled = [];
 
-  if (lazitConfigs.utilities.enabled) {
+  if (utilityConfigs.utilities.enabled) {
     function checkUtilName(name) {
       if (name == 'textColor') return 'color';
       if (name == 'backgroundColor') return 'background-color';
