@@ -150,7 +150,7 @@ const buildSettings = async function (settingsConfigs) {
       '\n}';
 
     if (rootVarsEnabled.includes('spacements')) {
-      content += `\n$rootVars: map.set($rootVars, 'spacement', $spacing);`
+      content += `\n$rootVars: map.set($rootVars, 'space', $spacing);`
     }
 
     writeFile(content, `${baseSassPath}/1_settings/_spacing.scss`);

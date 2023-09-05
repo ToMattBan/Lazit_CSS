@@ -1,29 +1,29 @@
 :root {
-  --var-color-realBlack: #000;
-  --var-color-black: #333;
-  --var-color-lightBlack: #444;
-  --var-color-darkBlack: #666;
-  --var-color-white: #fff;
-  --var-color-lightGray: #ccc;
-  --var-color-orange: #ff5722;
-  --var-color-blue: #2196F3;
-  --var-color-green: #4caf50;
-  --var-color-red: #f44336;
-  --var-color-background-color: #333;
-  --var-spacement-xxxs: 4px;
-  --var-spacement-xxs: 8px;
-  --var-spacement-xs: 16px;
-  --var-spacement-sm: 24px;
-  --var-spacement-lg: 48px;
-  --var-spacement-xl: 64px;
-  --var-spacement-xxl: 128px;
-  --var-spacement-nxxs: -8px;
-  --var-spacement-nxs: -16px;
-  --var-spacement-nsm: -24px;
-  --var-spacement-n: -32px;
-  --var-spacement-nlg: -48px;
-  --var-spacement-nxl: -64px;
-  --var-spacement-nxxl: -128px;
+  --color-realBlack: #000;
+  --color-black: #333;
+  --color-lightBlack: #444;
+  --color-darkBlack: #666;
+  --color-white: #fff;
+  --color-lightGray: #ccc;
+  --color-orange: #ff5722;
+  --color-blue: #2196F3;
+  --color-green: #4caf50;
+  --color-red: #f44336;
+  --color-background-color: #333;
+  --space-xxxs: 4px;
+  --space-xxs: 8px;
+  --space-xs: 16px;
+  --space-sm: 24px;
+  --space-lg: 48px;
+  --space-xl: 64px;
+  --space-xxl: 128px;
+  --space-nxxs: -8px;
+  --space-nxs: -16px;
+  --space-nsm: -24px;
+  --space-n: -32px;
+  --space-nlg: -48px;
+  --space-nxl: -64px;
+  --space-nxxl: -128px;
 }
 
 ._dn {

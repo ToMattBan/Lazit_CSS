@@ -9,7 +9,7 @@
 
       @each $name,
       $value in $values {
-        --var-#{$rule}-#{$name}: #{$value};
+        --#{$rule}-#{$name}: #{$value};
       }
     }
   }
