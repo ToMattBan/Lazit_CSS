@@ -2,7 +2,12 @@
   "setup": {
     "prefix": "_",
     "separator": "-",
-    "defaultFontSize": "16px"
+    "defaultFontSize": "16px",
+    "rootVars": {
+      "enabled": true,
+      "colors": true,
+      "spacements": true
+    }
   },
   "settings": {
     "breakpoints": {

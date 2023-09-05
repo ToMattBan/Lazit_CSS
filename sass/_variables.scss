@@ -1,0 +1,16 @@
+@if (variable-exists(rootVars)) {
+
+  $spacings: convertSpaceList($spacing, 'px');
+
+  :root {
+
+    @each $rule,
+    $values in $rootVars {
+
+      @each $name,
+      $value in $values {
+        --var-#{$rule}-#{$name}: #{$value};
+      }
+    }
+  }
+}

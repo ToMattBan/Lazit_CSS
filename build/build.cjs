@@ -3,6 +3,7 @@ var fs = require("fs");
 var lazitConfigs = {};
 const projectBasePath = process.cwd();
 const baseSassPath = projectBasePath + "/sass";
+const rootVarsEnabled = []
 
 const throwError = function (error) {
   console.error(error);
@@ -59,10 +60,18 @@ const readJsons = function () {
 };
 
 const buildCore = function (setupConfigs) {
-  const content = `$utilityPrefix: "${setupConfigs.prefix}";` +
+  let content = `$utilityPrefix: "${setupConfigs.prefix}";` +
     `\n$utilitySeparator: "${setupConfigs.separator}";` +
     `\n$defaultFontSize: ${setupConfigs.defaultFontSize};` +
     '\n$utilities: ();';
+
+  if (setupConfigs.rootVars.enabled) {
+    content += `\n$rootVars: ();`
+  }
+
+  for (var vars in setupConfigs.rootVars) {
+    if (vars != 'enabled' && setupConfigs.rootVars[vars]) rootVarsEnabled.push(vars)
+  }
 
   writeFile(content, `${baseSassPath}/1_settings/_core.scss`);
 };
@@ -116,6 +125,10 @@ const buildSettings = async function (settingsConfigs) {
       content += `\n$colors: map.set($colors, "${mainColor}", getColor("${colorsConfigs.colorAlias[mainColor]}"));`
     }
 
+    if (rootVarsEnabled.includes('colors')) {
+      content += `\n$rootVars: map.set($rootVars, 'color', $colors);`
+    }
+
     writeFile(content, `${baseSassPath}/1_settings/_colors.scss`);
   }
 
@@ -135,6 +148,10 @@ const buildSettings = async function (settingsConfigs) {
       '\n@each $spaceName, $spaceFactor in $spacingFactors {' +
       ' \n$spacing: map.set($spacing, $spaceName, $defaultSpacingValue * $spaceFactor);' +
       '\n}';
+
+    if (rootVarsEnabled.includes('spacements')) {
+      content += `\n$rootVars: map.set($rootVars, 'spacement', $spacing);`
+    }
 
     writeFile(content, `${baseSassPath}/1_settings/_spacing.scss`);
   }
