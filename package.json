@@ -10,8 +10,10 @@
     "build:sass": "sass sass/main.scss public/main.css"
   },
   "type": "module",
+  "dependencies": {
+    "sass": "^1.66.1"
+  },
   "devDependencies": {
-    "sass": "^1.63.4",
     "sass-mq": "^6.0.0"
   },
   "main": "public/main.min.css",
