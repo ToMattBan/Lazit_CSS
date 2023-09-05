@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 
+const child_process = require('child_process');
 var fs = require("fs");
 
 var lazitConfigs = {};
@@ -16,16 +17,10 @@ const throwError = function (error) {
   throw error;
 };
 
-const writeFile = function (content, filePath, sync = false) {
-  if (sync) {
-    fs.writeFileSync(filePath, content, (err) => {
-      if (err) throwError(err);
-    })
-  } else {
-    fs.writeFile(filePath, content, (err) => {
-      if (err) throwError(err);
-    })
-  }
+const writeFile = function (content, filePath) {
+  fs.writeFileSync(filePath, content, (err) => {
+    if (err) throwError(err);
+  })
 };
 
 const mergeAndDiscardDuplicates = function (json1, json2) {
@@ -60,12 +55,12 @@ const readJsons = async function () {
   if (fs.existsSync(`${userPath}/lazit.conf.json`)) {
     try {
       const data = fs.readFileSync(`${userPath}/lazit.conf.json`, 'utf8');
+
       if (!data) {
         return throwError("Couldn't read the user JSON");
       }
 
-      data = JSON.parse(data);
-      lazitConfigs = mergeAndDiscardDuplicates(defaultJson, data);
+      lazitConfigs = mergeAndDiscardDuplicates(defaultJson, JSON.parse(data));
 
       buildLib(lazitConfigs);
       return;
@@ -79,7 +74,7 @@ const readJsons = async function () {
   }
 };
 
-const buildCore = function (setupConfigs) {
+const buildCore = async function (setupConfigs) {
   let content = `$utilityPrefix: "${setupConfigs.prefix}";` +
     `\n$utilitySeparator: "${setupConfigs.separator}";` +
     `\n$defaultFontSize: ${setupConfigs.defaultFontSize};` +
@@ -93,7 +88,7 @@ const buildCore = function (setupConfigs) {
     if (vars != 'enabled' && setupConfigs.rootVars[vars]) rootVarsEnabled.push(vars)
   }
 
-  writeFile(content, `${baseSassPath}/1_settings/_core.scss`);
+  await writeFile(content, `${baseSassPath}/1_settings/_core.scss`);
 };
 
 const buildSettings = async function (settingsConfigs) {
@@ -111,7 +106,7 @@ const buildSettings = async function (settingsConfigs) {
     content += '\n);' +
       `\n$breakpointSeparator: \\${breakpointConfigs.separator};`
 
-    writeFile(content, `${baseSassPath}/1_settings/_breakpoints.scss`);
+    await writeFile(content, `${baseSassPath}/1_settings/_breakpoints.scss`);
   }
 
   if (settingsConfigs.colors.enabled) {
@@ -149,7 +144,7 @@ const buildSettings = async function (settingsConfigs) {
       content += `\n$rootVars: map.set($rootVars, 'color', $colors);`
     }
 
-    writeFile(content, `${baseSassPath}/1_settings/_colors.scss`);
+    await writeFile(content, `${baseSassPath}/1_settings/_colors.scss`);
   }
 
   if (settingsConfigs.spacing.enabled) {
@@ -173,7 +168,7 @@ const buildSettings = async function (settingsConfigs) {
       content += `\n$rootVars: map.set($rootVars, 'space', $spacing);`
     }
 
-    writeFile(content, `${baseSassPath}/1_settings/_spacing.scss`);
+    await writeFile(content, `${baseSassPath}/1_settings/_spacing.scss`);
   }
 
   let content = "";
@@ -181,10 +176,10 @@ const buildSettings = async function (settingsConfigs) {
     content += `\n@import './${settings}';`
   }
 
-  writeFile(content, `${baseSassPath}/1_settings/_mainSettings.scss`);
+  await writeFile(content, `${baseSassPath}/1_settings/_mainSettings.scss`);
 };
 
-const buildUtilities = function (utilityConfigs) {
+const buildUtilities = async function (utilityConfigs) {
   const utilities = utilityConfigs.utilities;
   const utilitiesEnabled = [];
 
@@ -229,7 +224,7 @@ const buildUtilities = function (utilityConfigs) {
           '\n}' +
           `\n$utilities: map.set($utilities, '${utility}', ${utility}Utility());`;
 
-        writeFile(content, `${baseSassPath}/7_utilities/_${utility}.scss`, true);
+        await writeFile(content, `${baseSassPath}/7_utilities/_${utility}.scss`);
 
         content = "";
       }
@@ -241,13 +236,40 @@ const buildUtilities = function (utilityConfigs) {
     content += `\n@import './${utility}';`
   }
 
-  writeFile(content, `${baseSassPath}/7_utilities/_mainUtilities.scss`)
+  await writeFile(content, `${baseSassPath}/7_utilities/_mainUtilities.scss`);
 }
 
-const buildLib = function (lazitConfigs) {
-  buildCore(lazitConfigs.setup);
-  buildSettings(lazitConfigs.settings);
-  buildUtilities(lazitConfigs.utilities);
+const runSass = function () {
+  try {
+    const sassProcess = child_process.spawnSync('sass', [
+      `${baseSassPath}/main.scss`, `${projectBasePath}/public/main.min.css`, `--style`, `compressed`
+    ], {
+      stdio: 'inherit',
+    });
+
+    if (sassProcess.error) {
+      throw new Error(`Error running the script: ${sassProcess.error}`);
+    }
+
+    if (sassProcess.status !== 0) {
+      throw new Error(`The script failed with status code: ${sassProcess.status}`);
+    }
+
+    console.log('Sass compilation completed successfully.');
+  } catch (error) {
+    console.error(error);
+    process.exit(1);
+  }
+};
+
+const buildLib = async function (lazitConfigs) {
+  try {
+    await buildCore(lazitConfigs.setup);
+    await buildSettings(lazitConfigs.settings);
+    await buildUtilities(lazitConfigs.utilities);
+  } finally {
+    runSass();
+  }
 };
 
 readJsons();
