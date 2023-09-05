@@ -12,3 +12,4 @@ $colors: (
 }
 $colors: map.set($colors, "primary", getColor("red"));
 $colors: map.set($colors, "secondary", getColor("green"));
+$rootVars: map.set($rootVars, 'color', $colors);

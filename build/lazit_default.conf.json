@@ -2,13 +2,17 @@
   "setup": {
     "prefix": "_",
     "separator": "-",
-    "defaultFontSize": "16px"
+    "defaultFontSize": "16px",
+    "rootVars": {
+      "enabled": true,
+      "colors": true,
+      "spacements": true
+    }
   },
   "settings": {
     "breakpoints": {
       "enabled": true,
       "breakpoints": {
-        "mobile": "0px",
         "tabletV": "600px",
         "tabletH": "900px",
         "laptop": "1200px",
@@ -28,13 +32,9 @@
         "yellow": "rgb(170, 170, 36)",
         "orange": "#ff7700"
       },
-      "projectMainColors": {
-        "primary": {
-          "sameAs": "red"
-        },
-        "secondary": {
-          "sameAs": "green"
-        }
+      "colorAlias": {
+        "primary": "red",
+        "secondary": "green"
       }
     },
     "spacing": {
@@ -111,6 +111,12 @@
       "textColor": {
         "enabled": true,
         "initial": "",
+        "useCustomColors": true,
+        "useDefaultColors": true
+      },
+      "backgroundColor": {
+        "enabled": true,
+        "initial": "bg",
         "useCustomColors": true,
         "useDefaultColors": true
       },

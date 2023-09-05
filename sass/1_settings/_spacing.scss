@@ -19,3 +19,4 @@ $spacing: ();
 @each $spaceName, $spaceFactor in $spacingFactors { 
 $spacing: map.set($spacing, $spaceName, $defaultSpacingValue * $spaceFactor);
 }
+$rootVars: map.set($rootVars, 'space', $spacing);

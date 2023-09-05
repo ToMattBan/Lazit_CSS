@@ -1,73 +1,94 @@
+#!/usr/bin/env node
+
+const child_process = require('child_process');
 var fs = require("fs");
 
 var lazitConfigs = {};
-const projectBasePath = process.cwd();
+const userPath = process.cwd();
+const isDev = userPath.includes('Lazit_CSS');
+
+const projectBasePath = userPath + `${isDev ? '' : '/node_modules/lazit'}`;
 const baseSassPath = projectBasePath + "/sass";
+
+const rootVarsEnabled = []
 
 const throwError = function (error) {
   console.error(error);
   throw error;
 };
 
-const writeFile = function (content, filePath, sync = false) {
-  if (sync) {
-    fs.writeFileSync(filePath, content, (err) => {
-      if (err) throwError(err);
-    })
-  } else {
-    fs.writeFile(filePath, content, (err) => {
-      if (err) throwError(err);
-    })
-  }
+const writeFile = function (content, filePath) {
+  fs.writeFileSync(filePath, content, (err) => {
+    if (err) throwError(err);
+  })
 };
 
 const mergeAndDiscardDuplicates = function (json1, json2) {
   const mergedJson = { ...json2 };
+  const notToMerge = ['rules', 'breakpoints', 'colors', 'spacements']
 
   for (const key in json1) {
     if (!mergedJson.hasOwnProperty(key)) {
       mergedJson[key] = json1[key];
+    } else if (!notToMerge.includes(key) && typeof json1[key] === 'object' && typeof mergedJson[key] === 'object') {
+      mergedJson[key] = mergeAndDiscardDuplicates(json1[key], mergedJson[key]);
     }
   }
 
   return mergedJson;
 }
 
-const readJsons = function () {
+const readJsons = async function () {
   let defaultJson = {};
-  fs.readFile(`${projectBasePath}/build/lazit_default.conf.json`, "utf8", function (err, data) {
-    if (err) return throwError("Couldn't get the default json file");
-    if (!data) return throwError("Couldn't read the default JSON");
 
-    defaultJson = JSON.parse(data);
-    return;
-  });
-
-  fs.readFile(`${projectBasePath}/lazit.conf.json`, "utf8", function (err, data) {
-    if (err) throwError("Couldn't get the config json file");
-    if (!data) throwError("Couldn't read the config JSON");
-
-    data = JSON.parse(data);
-    lazitConfigs = data;
-
-    for (key in defaultJson) {
-      if (!data[key]) {
-        lazitConfigs[key] = defaultJson[key];
-      }
+  try {
+    const data = fs.readFileSync(`${projectBasePath}/build/lazit_default.conf.json`, 'utf8');
+    if (!data) {
+      return throwError("Couldn't read the default JSON");
     }
 
+    defaultJson = JSON.parse(data);
+  } catch (err) {
+    return throwError("Couldn't get the default JSON file: " + err.message);
+  }
+
+  if (fs.existsSync(`${userPath}/lazit.conf.json`)) {
+    try {
+      const data = fs.readFileSync(`${userPath}/lazit.conf.json`, 'utf8');
+
+      if (!data) {
+        return throwError("Couldn't read the user JSON");
+      }
+
+      lazitConfigs = mergeAndDiscardDuplicates(defaultJson, JSON.parse(data));
+
+      buildLib(lazitConfigs);
+      return;
+    } catch (err) {
+      return throwError("Couldn't get the user JSON file: " + err.message);
+    }
+  } else {
+    lazitConfigs = defaultJson
     buildLib(lazitConfigs);
     return;
-  });
+  }
 };
 
-const buildCore = function (setupConfigs) {
-  const content = `$utilityPrefix: "${setupConfigs.prefix}";` +
+const buildCore = async function (setupConfigs) {
+  let content = `$utilityPrefix: "${setupConfigs.prefix}";` +
     `\n$utilitySeparator: "${setupConfigs.separator}";` +
     `\n$defaultFontSize: ${setupConfigs.defaultFontSize};` +
     '\n$utilities: ();';
 
-  writeFile(content, `${baseSassPath}/1_settings/_core.scss`);
+  if (setupConfigs.rootVars.enabled) {
+    content += `\n$rootVars: ();`
+  }
+
+  for (var vars in setupConfigs.rootVars) {
+    if (vars != 'enabled' && setupConfigs.rootVars[vars]) rootVarsEnabled.push(vars)
+  }
+
+  await writeFile(content, `${baseSassPath}/1_settings/_core.scss`);
 };
 
 const buildSettings = async function (settingsConfigs) {
@@ -85,7 +106,7 @@ const buildSettings = async function (settingsConfigs) {
     content += '\n);' +
       `\n$breakpointSeparator: \\${breakpointConfigs.separator};`
 
-    writeFile(content, `${baseSassPath}/1_settings/_breakpoints.scss`);
+    await writeFile(content, `${baseSassPath}/1_settings/_breakpoints.scss`);
   }
 
   if (settingsConfigs.colors.enabled) {
@@ -115,11 +136,15 @@ const buildSettings = async function (settingsConfigs) {
       '\n  @return map.get($colors, $key);' +
       '\n}';
 
-    for (mainColor in colorsConfigs.projectMainColors) {
-      content += `\n$colors: map.set($colors, "${mainColor}", getColor("${colorsConfigs.projectMainColors[mainColor].sameAs}"));`
+    for (mainColor in colorsConfigs.colorAlias) {
+      content += `\n$colors: map.set($colors, "${mainColor}", getColor("${colorsConfigs.colorAlias[mainColor]}"));`
     }
 
-    writeFile(content, `${baseSassPath}/1_settings/_colors.scss`);
+    if (rootVarsEnabled.includes('colors')) {
+      content += `\n$rootVars: map.set($rootVars, 'color', $colors);`
+    }
+
+    await writeFile(content, `${baseSassPath}/1_settings/_colors.scss`);
   }
 
   if (settingsConfigs.spacing.enabled) {
@@ -139,7 +164,11 @@ const buildSettings = async function (settingsConfigs) {
       ' \n$spacing: map.set($spacing, $spaceName, $defaultSpacingValue * $spaceFactor);' +
       '\n}';
 
-    writeFile(content, `${baseSassPath}/1_settings/_spacing.scss`);
+    if (rootVarsEnabled.includes('spacements')) {
+      content += `\n$rootVars: map.set($rootVars, 'space', $spacing);`
+    }
+
+    await writeFile(content, `${baseSassPath}/1_settings/_spacing.scss`);
   }
 
   let content = "";
@@ -147,54 +176,58 @@ const buildSettings = async function (settingsConfigs) {
     content += `\n@import './${settings}';`
   }
 
-  writeFile(content, `${baseSassPath}/1_settings/_mainSettings.scss`);
+  await writeFile(content, `${baseSassPath}/1_settings/_mainSettings.scss`);
 };
 
-const buildUtilities = function (utilityConfigs) {
+const buildUtilities = async function (utilityConfigs) {
   const utilities = utilityConfigs.utilities;
   const utilitiesEnabled = [];
 
-  function checkUtilName(name) {
-    if (name == 'textColor') return 'color';
-    return name;
-  }
+  if (utilityConfigs.utilities.enabled) {
+    function checkUtilName(name) {
+      if (name == 'textColor') return 'color';
+      if (name == 'backgroundColor') return 'background-color';
+      return name;
+    }
 
-  for (utility in utilities) {
-    const utilName = utilities[utility]
-    if (utilName.enabled) {
-      utilitiesEnabled.push(utility);
+    for (utility in utilities) {
+      const utilName = utilities[utility]
+      if (utilName.enabled) {
+        utilitiesEnabled.push(utility);
 
-      let content = `@mixin ${utility}Utility($breakpoint: null) {`;
+        let content = `@mixin ${utility}Utility($breakpoint: null) {`;
 
-      if (utilName.rules) {
-        content += '\n$utilityRules: (';
+        if (utilName.rules) {
+          content += '\n$utilityRules: (';
 
-        for (rule in utilName.rules) {
-          content += `\n"${rule}": ${utilName.rules[rule]},`;
+          for (rule in utilName.rules) {
+            content += `\n"${rule}": ${utilName.rules[rule]},`;
+          }
+          content += '\n);';
+        } else {
+          switch (utility) {
+            case 'textColor':
+            case 'backgroundColor':
+              content += '\n$utilityRules: $colors;';
+              break;
+            case 'padding':
+            case 'margin':
+              content += `\n$measureUnit: "${utilName.measureUnit}";` +
+                '\n$utilityRules: convertSpaceList($spacing, $measureUnit);';
+              break;
+            default:
+              break;
+          }
         }
-        content += '\n);';
-      } else {
-        switch (utility) {
-          case 'textColor':
-            content += '\n$utilityRules: $colors;';
-            break;
-          case 'padding':
-          case 'margin':
-            content += `\n$measureUnit: "${utilName.measureUnit}";` +
-              '\n$utilityRules: convertSpaceList($spacing, $measureUnit);';
-            break;
-          default:
-            break;
-        }
+
+        content += `\n@include createUtility('${checkUtilName(utility)}', '${utilName.initial}', $utilityRules, $breakpoint);` +
+          '\n}' +
+          `\n$utilities: map.set($utilities, '${utility}', ${utility}Utility());`;
+
+        await writeFile(content, `${baseSassPath}/7_utilities/_${utility}.scss`);
+
+        content = "";
       }
-
-      content += `\n@include createUtility('${checkUtilName(utility)}', '${utilName.initial}', $utilityRules, $breakpoint);` +
-        '\n}' +
-        `\n$utilities: map.set($utilities, '${utility}', ${utility}Utility());`;
-
-      writeFile(content, `${baseSassPath}/7_utilities/_${utility}.scss`, true);
-
-      content = "";
     }
   }
 
@@ -203,13 +236,40 @@ const buildUtilities = function (utilityConfigs) {
     content += `\n@import './${utility}';`
   }
 
-  writeFile(content, `${baseSassPath}/7_utilities/_mainUtilities.scss`)
+  await writeFile(content, `${baseSassPath}/7_utilities/_mainUtilities.scss`);
 }
 
-const buildLib = function (lazitConfigs) {
-  buildCore(lazitConfigs.setup);
-  buildSettings(lazitConfigs.settings);
-  if (lazitConfigs.utilities.enabled) buildUtilities(lazitConfigs.utilities);
+const runSass = function () {
+  try {
+    const sassProcess = child_process.spawnSync('sass', [
+      `${baseSassPath}/main.scss`, `${projectBasePath}/public/main.min.css`, `--style`, `compressed`
+    ], {
+      stdio: 'inherit',
+    });
+
+    if (sassProcess.error) {
+      throw new Error(`Error running the script: ${sassProcess.error}`);
+    }
+
+    if (sassProcess.status !== 0) {
+      throw new Error(`The script failed with status code: ${sassProcess.status}`);
+    }
+
+    console.log('Sass compilation completed successfully.');
+  } catch (error) {
+    console.error(error);
+    process.exit(1);
+  }
+};
+
+const buildLib = async function (lazitConfigs) {
+  try {
+    await buildCore(lazitConfigs.setup);
+    await buildSettings(lazitConfigs.settings);
+    await buildUtilities(lazitConfigs.utilities);
+  } finally {
+    runSass();
+  }
 };
 
 readJsons();
