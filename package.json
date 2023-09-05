@@ -1,6 +1,6 @@
 {
   "name": "lazit",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "description": "A tool, like a hammer, but for CSS. Based on InvertedTriangle Architecture",
   "bin": {
     "build": "./build/build.cjs"
