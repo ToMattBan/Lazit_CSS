@@ -1,14 +1,15 @@
 #!/usr/bin/env node
 
-const child_process = require('child_process');
-var fs = require("fs");
+const fs = require("fs");
+const path = require("path");
+const sass = require('sass');
 
 var lazitConfigs = {};
 const userPath = process.cwd();
-const isDev = userPath.includes('Lazit_CSS');
+const isDev = userPath.includes("Lazit_CSS");
 
-const projectBasePath = userPath + `${isDev ? '' : '/node_modules/lazit-css'}`;
-const baseSassPath = projectBasePath + "/sass";
+const projectBasePath = path.join(userPath, isDev ? "" : "node_modules/lazit-css");
+const baseSassPath = path.join(projectBasePath, "sass");
 
 const rootVarsEnabled = []
 
@@ -183,7 +184,7 @@ const buildUtilities = async function (utilityConfigs) {
   const utilities = utilityConfigs.utilities;
   const utilitiesEnabled = [];
 
-  if (utilityConfigs.utilities.enabled) {
+  if (utilityConfigs.enabled) {
     function checkUtilName(name) {
       if (name == 'textColor') return 'color';
       if (name == 'backgroundColor') return 'background-color';
@@ -239,38 +240,32 @@ const buildUtilities = async function (utilityConfigs) {
   await writeFile(content, `${baseSassPath}/7_utilities/_mainUtilities.scss`);
 }
 
-const runSass = function () {
-  try {
-    const localSass = projectBasePath + '/node_modules/.bin/sass';
+const compileSass = async function () {
+  const inputFilePath = path.join(baseSassPath, "main.scss");
+  const outputFilePath = path.join(projectBasePath, "public", "main.min.css");
+  const outputMapPath = path.join(projectBasePath, "public", "main.min.css.map");
 
-    const sassProcess = child_process.spawnSync(localSass, [
-      `${baseSassPath}/main.scss`, `${projectBasePath}/public/main.min.css`, `--style`, `compressed`
-    ], {
-      stdio: 'inherit',
-    });
-
-    if (sassProcess.error) {
-      throw new Error(`Error running the script: ${sassProcess.error}`);
-    }
-
-    if (sassProcess.status !== 0) {
-      throw new Error(`The script failed with status code: ${sassProcess.status}`);
-    }
-
-    console.log('Sass compilation completed successfully.');
-  } catch (error) {
-    console.error(error);
-    process.exit(1);
+  const sassOptions = {
+    style: "compressed",
+    sourceMap: true
   }
-};
+
+  const sassCompressed = sass.compile(inputFilePath, sassOptions);
+
+  await writeFile(sassCompressed.css, outputFilePath);
+  await writeFile(JSON.stringify(sassCompressed.sourceMap), outputMapPath);
+}
 
 const buildLib = async function (lazitConfigs) {
   try {
     await buildCore(lazitConfigs.setup);
     await buildSettings(lazitConfigs.settings);
     await buildUtilities(lazitConfigs.utilities);
+    compileSass();
+  } catch (error) {
+    console.log(error)
   } finally {
-    runSass();
+    console.log('Lazit builded successful')
   }
 };
 
