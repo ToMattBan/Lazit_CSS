@@ -1,22 +1,24 @@
 {
   "name": "lazit-css",
-  "version": "0.2.2",
-  "description": "A tool, like a hammer, but for CSS. Based on InvertedTriangle Architecture",
+  "version": "0.2.4",
+  "description": "A tool, like a hammer, but for managing CSS. It's based on the Inverted Triangle Architecture",
   "bin": {
-    "build": "./build/build.cjs"
+    "lazit-css": "./build/build.cjs"
   },
   "scripts": {
     "build": "node ./build/build.cjs"
   },
   "type": "module",
+  "dependencies": {
+    "sass": "^1.66.1"
+  },
   "devDependencies": {
-    "sass": "^1.66.1",
     "sass-mq": "^6.0.0"
   },
   "main": "public/main.min.css",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ToMattBan/Lazit_CSS.git"
+    "url": "https://github.com/ToMattBan/Lazit_CSS.git"
   },
   "files": [
     "build",
