@@ -1,6 +1,5 @@
 @use "sass:map";
 
-@import "../node_modules/sass-mq/mq";
 @import "./helper";
 
 @import "1_settings/mainSettings";
@@ -10,6 +9,8 @@
 @import "5_objects/mainObjects";
 @import "6_components/mainComponents";
 @import "7_utilities/mainUtilities";
+
+@import "./mq";
 
 @import './variables';
 @import './responsive';

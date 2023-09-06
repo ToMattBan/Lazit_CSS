@@ -28,10 +28,10 @@
   }
 }
 
-@if (variable-exists(mq-breakpoints)) {
+@if (variable-exists(breakpoints)) {
 
   @each $breakpointName,
-  $breakpointValue in $mq-breakpoints {
+  $breakpointValue in $breakpoints {
     $breakpoint: #{$breakpointSeparator}#{$breakpointName};
 
     @include mq($from: $breakpointName) {

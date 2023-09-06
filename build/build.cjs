@@ -98,7 +98,7 @@ const buildSettings = async function (settingsConfigs) {
   if (settingsConfigs.breakpoints.enabled) {
     settingsEnabled.push('breakpoints')
     const breakpointConfigs = settingsConfigs.breakpoints;
-    let content = '$mq-breakpoints: (';
+    let content = '$breakpoints: (';
 
     for (breakpoint in breakpointConfigs.breakpoints) {
       content += `\n"${breakpoint}": ${breakpointConfigs.breakpoints[breakpoint]},`;

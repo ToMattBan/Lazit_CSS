@@ -10,8 +10,7 @@
   },
   "type": "module",
   "dependencies": {
-    "sass": "^1.66.1",
-    "sass-mq": "^6.0.0"
+    "sass": "^1.66.1"
   },
   "main": "public/main.min.css",
   "repository": {
