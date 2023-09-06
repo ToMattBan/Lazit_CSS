@@ -7,7 +7,7 @@ var lazitConfigs = {};
 const userPath = process.cwd();
 const isDev = userPath.includes('Lazit_CSS');
 
-const projectBasePath = userPath + `${isDev ? '' : '/node_modules/lazit'}`;
+const projectBasePath = userPath + `${isDev ? '' : '/node_modules/lazit-css'}`;
 const baseSassPath = projectBasePath + "/sass";
 
 const rootVarsEnabled = []

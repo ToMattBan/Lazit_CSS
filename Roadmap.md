@@ -35,4 +35,4 @@ Before the roadmap itself, i want to explain what is Lazit, how I intended it to
 
 - [ ] Define what will became utilities
 - [ ] Create a example JSON with all the possible settings
-- [ ] Create a build function that can read a conf file and create the classes
+- [x] Create a build function that can read a conf file and create the classes
