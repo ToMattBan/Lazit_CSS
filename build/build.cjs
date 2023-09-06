@@ -241,7 +241,9 @@ const buildUtilities = async function (utilityConfigs) {
 
 const runSass = function () {
   try {
-    const sassProcess = child_process.spawnSync('sass', [
+    const localSass = projectBasePath + '/node_modules/.bin/sass';
+
+    const sassProcess = child_process.spawnSync(localSass, [
       `${baseSassPath}/main.scss`, `${projectBasePath}/public/main.min.css`, `--style`, `compressed`
     ], {
       stdio: 'inherit',
