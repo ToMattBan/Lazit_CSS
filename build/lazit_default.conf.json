@@ -110,15 +110,11 @@
       },
       "textColor": {
         "enabled": true,
-        "initial": "",
-        "useCustomColors": true,
-        "useDefaultColors": true
+        "initial": ""
       },
       "backgroundColor": {
         "enabled": true,
-        "initial": "bg",
-        "useCustomColors": true,
-        "useDefaultColors": true
+        "initial": "bg"
       },
       "padding": {
         "enabled": true,
