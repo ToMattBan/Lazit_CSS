@@ -133,7 +133,7 @@ const LazitBuilder = new class LazitBuilder {
     try {
       const userConfigs = await this.readFile(`${this.userPath}/lazit.conf.json`)
       if (userConfigs) {
-        lazitConfigs = this.mergeAndDiscardDuplicates(lazitConfigs, JSON.parse(data));
+        lazitConfigs = this.mergeAndDiscardDuplicates(lazitConfigs, JSON.parse(userConfigs));
       }
     } catch (err) {
       console.log("User configs not found, using the default configs instead")
