@@ -10,6 +10,8 @@ const isDev = userPath.includes("Lazit_CSS");
 const projectBasePath = path.join(userPath, isDev ? "" : "node_modules/lazit-css");
 const baseSassPath = path.join(projectBasePath, "sass");
 
+let rootVarsEnabled = [];
+
 const throwError = (error) => {
   console.error(error);
   throw error;
@@ -78,7 +80,7 @@ const buildCore = async (setupConfigs) => {
     `\n$defaultFontSize: ${setupConfigs.defaultFontSize};` +
     '\n$utilities: ();';
 
-  const rootVarsEnabled = Object.keys(setupConfigs.rootVars).filter(
+  rootVarsEnabled = Object.keys(setupConfigs.rootVars).filter(
     (vars) => vars !== "enabled" && setupConfigs.rootVars[vars]
   );
 
@@ -173,8 +175,9 @@ const buildSettings = async (settingsConfigs) => {
     }
 
     await writeFile(content, `${baseSassPath}/1_settings/_spacing.scss`);
-  } 
+  }
 
+  content = "";
   for (const settings of settingsEnabled) {
     content += `\n@import './${settings}';`;
   }
@@ -255,7 +258,7 @@ const compileSass = async () => {
 
     await Promise.all([
       fs.writeFile(outputFilePath, sassResult.css),
-      fs.writeFile(outputMapPath, sassResult.map.toString()),
+      fs.writeFile(outputMapPath, sassResult.sourceMap.toString()),
     ]);
   } catch (err) {
     throwError(err);
@@ -275,4 +278,15 @@ const buildLib = async (lazitConfigs) => {
   }
 };
 
-readJsons();
+async function runLazitBuilder() {
+  try {
+    await readJsons();
+  } catch (error) {
+    console.error(error);
+  } finally {
+    console.log('Lazit build completed.');
+  }
+}
+
+// Call the function to start the script
+runLazitBuilder();
