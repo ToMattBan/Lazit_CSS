@@ -33,6 +33,11 @@ Before the roadmap itself, i want to explain what is Lazit, how I intended it to
 
 ## ROADMAP
 
-- [ ] Define what will became utilities
-- [ ] Create a example JSON with all the possible settings
-- [x] Create a build function that can read a conf file and create the classes
+- [ ] Create tests
+- [ ] Create a way to auto-create utilities based on the user configs
+- [ ] Clean the build function, make it better
+- [ ] Build tools files/configs
+- [ ] Build generics files/configs
+- [ ] Build elements files/configs
+- [ ] Build objects files/configs
+- [ ] Build components files/configs
