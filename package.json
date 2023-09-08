@@ -6,7 +6,7 @@
     "lazit-css": "./build/build.cjs"
   },
   "scripts": {
-    "build": "node ./build/build.cjs"
+    "build": " node ./build/build.cjs --development"
   },
   "type": "module",
   "dependencies": {

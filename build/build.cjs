@@ -1,272 +1,294 @@
 #!/usr/bin/env node
 
-const fs = require("fs");
+const fs = require("fs").promises;
 const path = require("path");
-const sass = require('sass');
+const sass = require("sass");
 
-var lazitConfigs = {};
-const userPath = process.cwd();
-const isDev = userPath.includes("Lazit_CSS");
+class sassFunctions {
+  static createList(name, list) {
+    let result = `\n$${name}: (`;
 
-const projectBasePath = path.join(userPath, isDev ? "" : "node_modules/lazit-css");
-const baseSassPath = path.join(projectBasePath, "sass");
-
-const rootVarsEnabled = []
-
-const throwError = function (error) {
-  console.error(error);
-  throw error;
-};
-
-const writeFile = function (content, filePath) {
-  fs.writeFileSync(filePath, content, (err) => {
-    if (err) throwError(err);
-  })
-};
-
-const mergeAndDiscardDuplicates = function (json1, json2) {
-  const mergedJson = { ...json2 };
-  const notToMerge = ['rules', 'breakpoints', 'colors', 'spacements']
-
-  for (const key in json1) {
-    if (!mergedJson.hasOwnProperty(key)) {
-      mergedJson[key] = json1[key];
-    } else if (!notToMerge.includes(key) && typeof json1[key] === 'object' && typeof mergedJson[key] === 'object') {
-      mergedJson[key] = mergeAndDiscardDuplicates(json1[key], mergedJson[key]);
+    for (const [name, value] of Object.entries(list)) {
+      result += `\n"${name}": ${value},`
     }
-  }
 
-  return mergedJson;
+    result += '\n);';
+
+    return result;
+  };
+
+  static newItemList(list, name, value) {
+    const realValue = `map.set($${list}, "${name}", ${value})`
+    return this.createVariable(list, realValue)
+  };
+
+  static createVariable(name, value) {
+    if (value == "@") value = `\\${value}`;
+
+    return `\n$${name}: ${value};`;
+  };
+
+  static createMainFile(filesToImport) {
+    let result = "";
+
+    for (const file of filesToImport) {
+      result += `\n@import './${file}';`;
+    }
+
+    return result;
+  };
+
+  static createInclude(name, params) {
+    return `\n@include ${name}(${params.join(',')})`;
+  }
 }
 
-const readJsons = async function () {
-  let defaultJson = {};
+const LazitBuilder = new class LazitBuilder {
+  constructor() {
+    this.userPath = process.cwd();
+    const isDev = process.argv.includes("--development");
 
-  try {
-    const data = fs.readFileSync(`${projectBasePath}/build/lazit_default.conf.json`, 'utf8');
-    if (!data) {
-      return throwError("Couldn't read the default JSON");
-    }
+    this.projectBasePath = path.join(this.userPath, isDev ? "" : "node_modules/lazit-css");
+    this.baseSassPath = path.join(this.projectBasePath, "sass");
 
-    defaultJson = JSON.parse(data);
-  } catch (err) {
-    return throwError("Couldn't get the default JSON file: " + err.message);
-  }
+    this.rootVarsEnabled = [];
+    this.init();
+  };
 
-  if (fs.existsSync(`${userPath}/lazit.conf.json`)) {
+  async init() {
+    const lazitConfigs = await this.getConfigs();
+
     try {
-      const data = fs.readFileSync(`${userPath}/lazit.conf.json`, 'utf8');
+      await Promise.all([
+        this.buildCore(lazitConfigs.setup),
+        this.buildSettings(lazitConfigs.settings),
+        this.buildUtilities(lazitConfigs.utilities)
+      ])
+
+      this.compileSass();
+    } catch (error) {
+      console.error(error);
+    } finally {
+      console.log("Lazit build successful");
+    }
+  };
+
+
+  /* Helpers */
+  async writeFile(content, filePath) {
+    try {
+      await fs.writeFile(filePath, content);
+    } catch (err) {
+      throw err;
+    }
+  };
+
+  async readFile(path) {
+    try {
+      const data = await fs.readFile(path, "utf8");
 
       if (!data) {
-        return throwError("Couldn't read the user JSON");
+        throw `Couldn't read the content of ${path}`
       }
 
-      lazitConfigs = mergeAndDiscardDuplicates(defaultJson, JSON.parse(data));
+      return data;
+    } catch (error) {
+      throw `Couldn't open ${path}`
+    }
+  };
 
-      buildLib(lazitConfigs);
-      return;
+  mergeAndDiscardDuplicates(json1, json2) {
+    const mergedJson = { ...json2 };
+    const notToMerge = ["rules", "breakpoints", "colors", "spacements"];
+
+    for (const key in json1) {
+      if (!mergedJson.hasOwnProperty(key)) {
+        mergedJson[key] = json1[key];
+      } else if (
+        !notToMerge.includes(key) &&
+        typeof json1[key] === "object" &&
+        typeof mergedJson[key] === "object"
+      ) {
+        mergedJson[key] = this.mergeAndDiscardDuplicates(json1[key], mergedJson[key]);
+      }
+    }
+
+    return mergedJson;
+  };
+
+  checkUtilName(name) {
+    name = name.replace(/([A-Z])/g, "-$1").toLowerCase();
+
+    if (name === "text-color") return "color";
+
+    return name;
+  };
+
+
+  /* Build functions */
+  async getConfigs() {
+    let lazitConfigs = await this.readFile(`${this.projectBasePath}/build/lazit_default.conf.json`);
+    lazitConfigs = JSON.parse(lazitConfigs);
+
+    try {
+      const userConfigs = await this.readFile(`${this.userPath}/lazit.conf.json`)
+      if (userConfigs) {
+        lazitConfigs = this.mergeAndDiscardDuplicates(lazitConfigs, JSON.parse(data));
+      }
     } catch (err) {
-      return throwError("Couldn't get the user JSON file: " + err.message);
-    }
-  } else {
-    lazitConfigs = defaultJson
-    buildLib(lazitConfigs);
-    return;
-  }
-};
-
-const buildCore = async function (setupConfigs) {
-  let content = `$utilityPrefix: "${setupConfigs.prefix}";` +
-    `\n$utilitySeparator: "${setupConfigs.separator}";` +
-    `\n$defaultFontSize: ${setupConfigs.defaultFontSize};` +
-    '\n$utilities: ();';
-
-  if (setupConfigs.rootVars.enabled) {
-    content += `\n$rootVars: ();`
-  }
-
-  for (var vars in setupConfigs.rootVars) {
-    if (vars != 'enabled' && setupConfigs.rootVars[vars]) rootVarsEnabled.push(vars)
-  }
-
-  await writeFile(content, `${baseSassPath}/1_settings/_core.scss`);
-};
-
-const buildSettings = async function (settingsConfigs) {
-  const settingsEnabled = ['core'];
-
-  if (settingsConfigs.breakpoints.enabled) {
-    settingsEnabled.push('breakpoints')
-    const breakpointConfigs = settingsConfigs.breakpoints;
-    let content = '$breakpoints: (';
-
-    for (breakpoint in breakpointConfigs.breakpoints) {
-      content += `\n"${breakpoint}": ${breakpointConfigs.breakpoints[breakpoint]},`;
+      console.log("User configs not found, using the default configs instead")
     }
 
-    content += '\n);' +
-      `\n$breakpointSeparator: \\${breakpointConfigs.separator};`
+    return lazitConfigs;
+  };
 
-    await writeFile(content, `${baseSassPath}/1_settings/_breakpoints.scss`);
-  }
+  async buildCore(setupConfigs) {
+    this.rootVarsEnabled = Object.keys(setupConfigs.rootVars).filter(
+      (vars) => vars !== "enabled" && setupConfigs.rootVars[vars]
+    );
 
-  if (settingsConfigs.colors.enabled) {
-    settingsEnabled.push('colors')
-    const colorsConfigs = settingsConfigs.colors;
-    let colorsJson = colorsConfigs.colors;
+    let content = `$utilityPrefix: "${setupConfigs.prefix}";` +
+      `\n$utilitySeparator: "${setupConfigs.separator}";` +
+      `\n$defaultFontSize: ${setupConfigs.defaultFontSize};` +
+      `\n$utilities: ();`;
 
-    if (colorsConfigs.includeHTMLColors) {
-      let defaultColors = await fs.readFileSync(`${projectBasePath}/build/html-defaullt-colors.json`, "utf8", function (err, data) {
-        if (err) return throwError("Couldn't get the default colors JSON");
-        if (!data) return throwError("Couldn't read the default colors JSON");
-
-        defaultColors = JSON.parse(data);
-        return defaultColors;
-      });
-
-      defaultColors = JSON.parse(defaultColors);
-      colorsJson = mergeAndDiscardDuplicates(defaultColors, colorsConfigs.colors);
+    if (setupConfigs.rootVars.enabled) {
+      content += `\n$rootVars: ();`;
     }
 
-    let content = '$colors: (';
-    for (color in colorsJson) {
-      content += `\n"${color}": ${colorsJson[color]},`;
-    }
-    content += '\n);' +
-      '\n@function getColor($key) {' +
-      '\n  @return map.get($colors, $key);' +
-      '\n}';
+    await this.writeFile(content, `${this.baseSassPath}/1_settings/_core.scss`);
+  };
 
-    for (mainColor in colorsConfigs.colorAlias) {
-      content += `\n$colors: map.set($colors, "${mainColor}", getColor("${colorsConfigs.colorAlias[mainColor]}"));`
-    }
+  async buildSettings(settingsConfigs) {
+    const settingsEnabled = ["core"];
 
-    if (rootVarsEnabled.includes('colors')) {
-      content += `\n$rootVars: map.set($rootVars, 'color', $colors);`
-    }
+    if (settingsConfigs.breakpoints.enabled) {
+      settingsEnabled.push("breakpoints");
 
-    await writeFile(content, `${baseSassPath}/1_settings/_colors.scss`);
-  }
+      const breakpointConfigs = settingsConfigs.breakpoints;
 
-  if (settingsConfigs.spacing.enabled) {
-    settingsEnabled.push('spacing')
-    const spacingConfigs = settingsConfigs.spacing;
+      let content = sassFunctions.createList('breakpoints', breakpointConfigs.breakpoints);
+      content += sassFunctions.createVariable('breakpointSeparator', breakpointConfigs.separator);
 
-    let content = `$defaultSpacingValue: ${spacingConfigs.defaultSpacingValue};` +
-      '\n$spacingFactors: (';
-
-    for (spacing in spacingConfigs.spacements) {
-      content += `\n"${spacing}": ${spacingConfigs.spacements[spacing]},`
+      await this.writeFile(content, `${this.baseSassPath}/1_settings/_breakpoints.scss`);
     }
 
-    content += '\n);' +
-      '\n$spacing: ();' +
-      '\n@each $spaceName, $spaceFactor in $spacingFactors {' +
-      ' \n$spacing: map.set($spacing, $spaceName, $defaultSpacingValue * $spaceFactor);' +
-      '\n}';
+    if (settingsConfigs.colors.enabled) {
+      settingsEnabled.push("colors");
 
-    if (rootVarsEnabled.includes('spacements')) {
-      content += `\n$rootVars: map.set($rootVars, 'space', $spacing);`
+      const colorsConfigs = settingsConfigs.colors;
+
+      let colorsJson = colorsConfigs.colors;
+
+      if (colorsConfigs.includeHTMLColors) {
+        const defaultColors = await this.readFile(`${projectBasePath}/build/html-default-colors.json`);
+        if (defaultColors) {
+          colorsJson = this.mergeAndDiscardDuplicates(JSON.parse(defaultColors), colorsConfigs.colors);
+        }
+      }
+
+      let content = sassFunctions.createList('colors', colorsJson);
+      for (const [mainColor, aliasColor] of Object.entries(colorsConfigs.colorAlias)) {
+        content += sassFunctions.newItemList('colors', mainColor, `map.get($colors, "${aliasColor}")`)
+      }
+
+      if (this.rootVarsEnabled.includes("colors")) {
+        content += sassFunctions.newItemList("rootVars", "color", "$colors")
+      }
+
+      await this.writeFile(content, `${this.baseSassPath}/1_settings/_colors.scss`);
     }
 
-    await writeFile(content, `${baseSassPath}/1_settings/_spacing.scss`);
-  }
+    if (settingsConfigs.spacing.enabled) {
+      settingsEnabled.push("spacing");
 
-  let content = "";
-  for (settings of settingsEnabled) {
-    content += `\n@import './${settings}';`
-  }
+      const spacingConfigs = settingsConfigs.spacing;
+      const defaultMeasureUnit = spacingConfigs.defaultSpacingValue.replace(/\d/g, "");
+      const defaultValue = spacingConfigs.defaultSpacingValue.replace(defaultMeasureUnit, "");
 
-  await writeFile(content, `${baseSassPath}/1_settings/_mainSettings.scss`);
-};
+      let content = sassFunctions.createVariable('defaultSpacingValue', spacingConfigs.defaultSpacingValue);
+      //content += sassFunctions.createList('spacingFactors', spacingConfigs.spacements);
 
-const buildUtilities = async function (utilityConfigs) {
-  const utilities = utilityConfigs.utilities;
-  const utilitiesEnabled = [];
+      var listSpacements = [];
+      Object.entries(spacingConfigs.spacements).forEach(value => {
+        listSpacements[value[0]] = (value[1] * defaultValue) + defaultMeasureUnit
+      })
 
-  if (utilityConfigs.enabled) {
-    function checkUtilName(name) {
-      if (name == 'textColor') return 'color';
-      if (name == 'backgroundColor') return 'background-color';
-      return name;
+      content += sassFunctions.createList('spacing', listSpacements)
+
+      if (this.rootVarsEnabled.includes("spacements")) {
+        content += sassFunctions.newItemList("rootVars", "space", "$spacing");
+      }
+
+      await this.writeFile(content, `${this.baseSassPath}/1_settings/_spacing.scss`);
     }
 
-    for (utility in utilities) {
-      const utilName = utilities[utility]
-      if (utilName.enabled) {
-        utilitiesEnabled.push(utility);
+    const mainFile = sassFunctions.createMainFile(settingsEnabled);
 
-        let content = `@mixin ${utility}Utility($breakpoint: null) {`;
+    await this.writeFile(mainFile, `${this.baseSassPath}/1_settings/_mainSettings.scss`);
+  };
 
-        if (utilName.rules) {
-          content += '\n$utilityRules: (';
+  async buildUtilities(utilityConfigs) {
+    const utilities = utilityConfigs.utilities;
+    const utilitiesEnabled = [];
 
-          for (rule in utilName.rules) {
-            content += `\n"${rule}": ${utilName.rules[rule]},`;
-          }
-          content += '\n);';
-        } else {
-          switch (utility) {
-            case 'textColor':
-            case 'backgroundColor':
-              content += '\n$utilityRules: $colors;';
-              break;
-            case 'padding':
-            case 'margin':
-              content += `\n$measureUnit: "${utilName.measureUnit}";` +
-                '\n$utilityRules: convertSpaceList($spacing, $measureUnit);';
-              break;
-            default:
-              break;
-          }
+    if (utilityConfigs.enabled) {
+      for (const [utilName, utility] of Object.entries(utilities)) {
+
+        if (!utility.enabled) continue;
+
+        utilitiesEnabled.push(utilName);
+
+        let content = `@mixin ${utilName}Utility($breakpoint: null) {`;
+
+        switch (utilName) {
+          case "textColor":
+          case "backgroundColor":
+            content += sassFunctions.createVariable('utilityRules', '$colors');
+            break;
+          case "padding":
+          case "margin":
+            content += sassFunctions.createVariable('measureUnit', `"${utility.measureUnit}"`);
+            content += sassFunctions.createVariable('utilityRules', 'convertSpaceList($spacing, $measureUnit)');
+            break;
+          default:
+            content += sassFunctions.createList('utilityRules', utility.rules);
+            break;
         }
 
-        content += `\n@include createUtility('${checkUtilName(utility)}', '${utilName.initial}', $utilityRules, $breakpoint);` +
-          '\n}' +
-          `\n$utilities: map.set($utilities, '${utility}', ${utility}Utility());`;
+        content += sassFunctions.createInclude('createUtility', [`'${this.checkUtilName(utilName)}'`, `'${utility.initial}'`, '$utilityRules', '$breakpoint']);
 
-        await writeFile(content, `${baseSassPath}/7_utilities/_${utility}.scss`);
+        content += '\n}';
+        content += sassFunctions.newItemList('utilities', utilName, `${utilName}Utility()`);
 
-        content = "";
+        await this.writeFile(content, `${this.baseSassPath}/7_utilities/_${utilName}.scss`);
       }
     }
+
+    let content = sassFunctions.createMainFile(utilitiesEnabled);
+
+    await this.writeFile(content, `${this.baseSassPath}/7_utilities/_mainUtilities.scss`);
   }
 
-  let content = "";
-  for (utility of utilitiesEnabled) {
-    content += `\n@import './${utility}';`
-  }
+  async compileSass() {
+    const inputFilePath = path.join(this.baseSassPath, "main.scss");
+    const outputFilePath = path.join(this.projectBasePath, "public", "main.min.css");
+    const outputMapPath = path.join(this.projectBasePath, "public", "main.min.css.map");
 
-  await writeFile(content, `${baseSassPath}/7_utilities/_mainUtilities.scss`);
+    const sassOptions = {
+      style: "compressed",
+      sourceMap: true,
+    };
+
+    try {
+      const sassResult = sass.compile(inputFilePath, sassOptions);
+
+      await Promise.all([
+        fs.writeFile(outputFilePath, sassResult.css),
+        fs.writeFile(outputMapPath, sassResult.sourceMap.toString()),
+      ]);
+    } catch (error) {
+      throw error;
+    }
+  }
 }
-
-const compileSass = async function () {
-  const inputFilePath = path.join(baseSassPath, "main.scss");
-  const outputFilePath = path.join(projectBasePath, "public", "main.min.css");
-  const outputMapPath = path.join(projectBasePath, "public", "main.min.css.map");
-
-  const sassOptions = {
-    style: "compressed",
-    sourceMap: true
-  }
-
-  const sassCompressed = sass.compile(inputFilePath, sassOptions);
-
-  await writeFile(sassCompressed.css, outputFilePath);
-  await writeFile(JSON.stringify(sassCompressed.sourceMap), outputMapPath);
-}
-
-const buildLib = async function (lazitConfigs) {
-  try {
-    await buildCore(lazitConfigs.setup);
-    await buildSettings(lazitConfigs.settings);
-    await buildUtilities(lazitConfigs.utilities);
-    compileSass();
-  } catch (error) {
-    console.log(error)
-  } finally {
-    console.log('Lazit builded successful')
-  }
-};
-
-readJsons();
