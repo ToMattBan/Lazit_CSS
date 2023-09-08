@@ -35,6 +35,7 @@ Before the roadmap itself, i want to explain what is Lazit, how I intended it to
 
 - [ ] Create tests
 - [ ] Create a way to auto-create utilities based on the user configs
+- [ ] Type config file to add autocomplete to the users
 - [ ] Clean the build function, make it better
 - [ ] Build tools files/configs
 - [ ] Build generics files/configs
