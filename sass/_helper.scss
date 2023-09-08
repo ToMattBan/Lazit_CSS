@@ -1,3 +1,6 @@
+@use 'sass:math';
+@use 'sass:map';
+
 @mixin createUtility($property, $initial, $utilityRules, $breakpoint) {
 
   @each $indentifier, $rule in $utilityRules {
@@ -14,28 +17,69 @@
   }
 };
 
-@function convert-px($value, $destination) {
-  @if ($destination == "rem") {
-    @return calc(($value / $defaultFontSize) * 1rem)
+
+// Conversions
+@function convert-unity($value, $destination) {
+  @if ($destination == "rem" and math.unit($value) != "rem") {
+    @return calc(($value / $defaultFontSize) * 1rem);
   };
 
-  @if ($destination == "em") {
-    @return calc(($value / $defaultFontSize) * 1em)
+  @if ($destination == "em" and math.unit($value) != "em") {
+    @return calc(($value / $defaultFontSize) * 1em);
+  };
+
+  @if ($destination == "px" and math.unit($value) != "px") {
+    @return calc(($value * $defaultFontSize) * 1px);
   };
 
   @return $value;
 };
 
 @function convertSpaceList($list, $measureUnit) {
-  @if $measureUnit != "px" {
-    $newList: ();
+  $newList: ();
 
-    @each $spaceName, $spaceValue in $list {
-      $newList: map.set($newList, $spaceName, convert-px($spaceValue, $measureUnit))
-    }
-
-    $list: $newList;
+  @each $spaceName, $spaceValue in $list {
+    $newList: map.set($newList, $spaceName, convert-unity($spaceValue, $measureUnit))
   }
 
+  $list: $newList;
+
   @return $list;
+}
+
+
+// Responsiveness helpers
+// Inspired by https://raw.githubusercontent.com/sass-mq/sass-mq/main/_mq.scss
+@function get-breakpoint-width($name, $breakpoints) {
+  @if map.has-key($breakpoints, $name) {
+    @return map.get($breakpoints, $name);
+  }
+
+  @else {
+    @warn "Breakpoint #{$name} wasn't found in $breakpoints.";
+    @return null;
+  }
+}
+
+@mixin mq($from: false) {
+  $min-width: 0;
+  $media-query: '';
+
+  @if $from {
+    @if type-of($from)==number {
+      $min-width: convert-unity($from, 'em');
+    }
+
+    @else {
+      $min-width: convert-unity(get-breakpoint-width($from, $breakpoints), 'em');
+    }
+  }
+
+  @if $min-width !=0 {
+    $media-query: '(min-width: #{$min-width})';
+  }
+
+  @media #{$media-query} {
+    @content;
+  }
 }
