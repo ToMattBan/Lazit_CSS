@@ -1,5 +1,0 @@
-@mixin backgroundColorUtility($breakpoint: null) {
-$utilityRules: $colors;
-@include createUtility('background-color', 'bg', $utilityRules, $breakpoint);
-}
-$utilities: map.set($utilities, 'backgroundColor', backgroundColorUtility());
