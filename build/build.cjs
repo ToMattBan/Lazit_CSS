@@ -250,6 +250,7 @@ const LazitBuilder = new class LazitBuilder {
           case "margin":
             content += sassFunctions.createVariable('measureUnit', `"${utility.measureUnit}"`);
             content += sassFunctions.createVariable('utilityRules', 'convertSpaceList($spacing, $measureUnit)');
+            content += sassFunctions.newItemList('utilityRules', '0', '0px');
             break;
           default:
             content += sassFunctions.createList('utilityRules', utility.rules);
