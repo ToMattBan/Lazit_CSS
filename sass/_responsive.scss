@@ -11,6 +11,10 @@
     @include cursorUtility()
   }
 
+  @if ($util == "textAlign") {
+    @include textAlignUtility()
+  }
+
   @if ($util == "textColor") {
     @include textColorUtility()
   }
@@ -47,6 +51,10 @@
 
         @if ($util == "cursor") {
           @include cursorUtility($breakpoint)
+        }
+
+        @if ($util == "textAlign") {
+          @include textAlignUtility($breakpoint)
         }
 
         @if ($util == "textColor") {

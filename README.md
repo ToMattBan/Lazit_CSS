@@ -83,6 +83,7 @@ The utilities section is where you define the utility classes you want to genera
         display: Configure display utilities
         position: Configure position utilities
         cursor: Configure cursor utilities
+        textAlign: Configure text alignment utilities
         textColor: Configure textColor utilities
         backgroundColor: Configure backgroundColor utilities
         padding: Configure padding utilities
@@ -90,7 +91,7 @@ The utilities section is where you define the utility classes you want to genera
       }
     }
 
-- #### display, position and cursor
+- #### display, position, cursor and textAlign
 
   ```
   {

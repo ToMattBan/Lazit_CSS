@@ -1,7 +1,7 @@
 {
   "setup": {
     "prefix": "_",
-    "separator": "-",
+    "separator": "",
     "defaultFontSize": "16px",
     "rootVars": {
       "enabled": true,
@@ -106,6 +106,15 @@
         "initial": "c",
         "rules": {
           "p": "pointer"
+        }
+      },
+      "textAlign": {
+        "enabled": true,
+        "initial": "ta",
+        "rules": {
+          "c": "center",
+          "l": "left",
+          "r": "right"
         }
       },
       "textColor": {
