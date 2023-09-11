@@ -1,36 +1,57 @@
-@use 'sass:math';
-@use 'sass:map';
+@mixin createPropertie($property, $rule) {
+  #{$property}: $rule !important;
+}
 
-@mixin createUtility($property, $initial, $utilityRules, $breakpoint) {
+@mixin createUtility($propertieName, $initial, $utilityRules, $breakpoint) {
+  @if (type-of($value: $utilityRules) !='list') {
+    $utilityRules: ($utilityRules, '');
+  }
 
-  @each $indentifier, $rule in $utilityRules {
-    
-    @if ($initial == "") {
-      .#{$utilityPrefix}#{$indentifier}#{$breakpoint} {
-        #{$property}: $rule !important;
-      }
-    } @else {
-      .#{$utilityPrefix}#{$initial}#{$utilitySeparator}#{$indentifier}#{$breakpoint} {
-        #{$property}: $rule !important;
-      }
+  $variants: list.nth($utilityRules, 2);
+  $utilityRules: list.nth($utilityRules, 1);
+
+  $actualUtilitySeparator: $utilitySeparator;
+  @if ($initial == "") {
+    $actualUtilitySeparator: '';
+  }
+
+  @each $identifier, $rule in $utilityRules {
+    .#{$utilityPrefix}#{$initial}#{$actualUtilitySeparator}#{$identifier}#{$breakpoint} {
+      @include createPropertie($propertieName, $rule);
+    }
+
+    @if ($variants != null) {
+      @each $variantIdentifier, $variantName in $variants {
+        @if (type-of($value: $variantName) == 'list') {
+          .#{$utilityPrefix}#{$initial}#{$variantIdentifier}#{$actualUtilitySeparator}#{$identifier} {
+            @each $customVariant in $variantName {
+              @include createPropertie(#{$propertieName}-#{$customVariant}, $rule);
+            }
+          }
+        } @else {  
+          .#{$utilityPrefix}#{$initial}#{$variantIdentifier}#{$actualUtilitySeparator}#{$identifier} {
+            @include createPropertie(#{$propertieName}-#{$variantName}, $rule);
+          }
+        }
+      } 
     }
   }
-};
+}
 
 
 // Conversions
 @function convert-unity($value, $destination) {
   @if ($destination == "rem" and math.unit($value) != "rem") {
     @return calc(($value / $defaultFontSize) * 1rem);
-  };
+  }
 
   @if ($destination == "em" and math.unit($value) != "em") {
     @return calc(($value / $defaultFontSize) * 1em);
-  };
+  }
 
   @if ($destination == "px" and math.unit($value) != "px") {
     @return calc(($value * $defaultFontSize) * 1px);
-  };
+  }
 
   @return $value;
 };

@@ -56,6 +56,19 @@
         "nxl": -2,
         "nxxl": -4
       }
+    },
+    "directions": {
+      "enabled": true,
+      "directions": {
+        "t": "top",
+        "l": "left",
+        "b": "bottom",
+        "r": "right"
+      },
+      "customDirections": {
+        "v": ["top", "bottom"],
+        "h": ["left", "right"]
+      }
     }
   },
   "tools": {},
@@ -128,12 +141,14 @@
       "padding": {
         "enabled": true,
         "initial": "p",
-        "measureUnit": "px"
+        "measureUnit": "px",
+        "useDirections": true
       },
       "margin": {
         "enabled": true,
         "initial": "m",
-        "measureUnit": "px"
+        "measureUnit": "px",
+        "useDirections": true
       }
     }
   }

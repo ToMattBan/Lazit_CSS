@@ -9,7 +9,19 @@ class sassFunctions {
     let result = `\n$${name}: (`;
 
     for (const [name, value] of Object.entries(list)) {
-      result += `\n"${name}": ${value},`
+      result += `\n"${name}": `;
+
+      if (typeof value === 'object') {
+        result += '(';
+
+        value.forEach(val => {
+          result += `${val},`
+        });
+
+        result += '),'
+      } else {
+        result += `${value},`
+      }
     }
 
     result += '\n);';
@@ -223,6 +235,16 @@ const LazitBuilder = new class LazitBuilder {
       await this.writeFile(content, `${this.baseSassPath}/1_settings/_spacing.scss`);
     }
 
+    if (settingsConfigs.directions.enabled) {
+      settingsEnabled.push("direction");
+
+      var directions = this.mergeAndDiscardDuplicates(settingsConfigs.directions.directions, settingsConfigs.directions.customDirections)
+
+      let content = sassFunctions.createList('directions', directions);
+
+      await this.writeFile(content, `${this.baseSassPath}/1_settings/_direction.scss`)
+    }
+
     const mainFile = sassFunctions.createMainFile(settingsEnabled);
 
     await this.writeFile(mainFile, `${this.baseSassPath}/1_settings/_mainSettings.scss`);
@@ -241,6 +263,8 @@ const LazitBuilder = new class LazitBuilder {
 
         let content = `@mixin ${utilName}Utility($breakpoint: null) {`;
 
+        let variant = null;
+
         switch (utilName) {
           case "textColor":
           case "backgroundColor":
@@ -251,13 +275,14 @@ const LazitBuilder = new class LazitBuilder {
             content += sassFunctions.createVariable('measureUnit', `"${utility.measureUnit}"`);
             content += sassFunctions.createVariable('utilityRules', 'convertSpaceList($spacing, $measureUnit)');
             content += sassFunctions.newItemList('utilityRules', '0', '0px');
+            variant = '$directions'
             break;
           default:
             content += sassFunctions.createList('utilityRules', utility.rules);
             break;
         }
 
-        content += sassFunctions.createInclude('createUtility', [`'${this.checkUtilName(utilName)}'`, `'${utility.initial}'`, '$utilityRules', '$breakpoint']);
+        content += sassFunctions.createInclude('createUtility', [`'${this.checkUtilName(utilName)}'`, `'${utility.initial}'`, `($utilityRules, ${variant})`, '$breakpoint']);
 
         content += '\n}';
         content += sassFunctions.newItemList('utilities', utilName, `${utilName}Utility()`);

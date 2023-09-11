@@ -40,6 +40,7 @@ The settings section allows you to configure various settings for your utility c
       breakpoints: Define responsive breakpoints for your project.
       colors: Configure color-related settings, including custom colors and aliases.
       spacing: Customize spacing values for margins and padding.
+      directions: Customize directions
     }
 
 - #### Breakpoints
@@ -70,6 +71,16 @@ The settings section allows you to configure various settings for your utility c
     enabled: Define if the projects needs or not spacements configs
     defaultSpacingValue: Its the default spacing value, when nothing more is specified, this value will be used
     spacements: Define a list with the spacements names and values (e.g, "small": "0.25"). The value must be a decimal.
+  }
+  ```
+
+- #### Directions
+
+  ```
+  {
+    enabled: Define if the projects needs or not spacements configs
+    directions: The directions that will be used to create the classes
+    customDirections: Define custom directions, that can be a combination of normal directions
   }
   ```
 
@@ -117,6 +128,7 @@ The utilities section is where you define the utility classes you want to genera
     enabled: Define if the projects needs or not reponsive classes
     initial: Define the initial of the utility
     measureUnit: Define the measure unit of the utility, if the measure defined here is inexistent, pixel will be used as a fallback
+    useDirections: Define if the classes must use the directions (e.g.: _mt for margin top)
   }
   ```
 
