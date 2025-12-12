@@ -9,8 +9,8 @@ Before the roadmap itself, i want to explain what is Lazit, how I intended it to
 
 ### How it work?
 
-- Lazit will have an config file, writted as a JSON, where the dev can customize it's experience
-- Lazit will read this JSON, pass its configs to our SASS and then it will build a single custom CSS file
+- Lazit will have an config file, where the dev can customize it's experience
+- Lazit will read this file, pass its configs to our SASS and then it will build a single custom CSS file
 - Lazit will be builded with "modules" that can be enabled or disabled, based on what the dev wants
 - All this using the power of SASS
 
@@ -33,12 +33,8 @@ Before the roadmap itself, i want to explain what is Lazit, how I intended it to
 
 ## ROADMAP
 
-- [ ] Create tests
-- [ ] Create a way to auto-create utilities based on the user configs
-- [ ] Type config file to add autocomplete to the users
-- [ ] Clean the build function, make it better
-- [ ] Build tools files/configs
-- [ ] Build generics files/configs
-- [ ] Build elements files/configs
-- [ ] Build objects files/configs
-- [ ] Build components files/configs
+- [ ] Find a way to use module as config file
+- [ ] Create build function
+- [ ] Build plugin for vite
+- [ ] Exports without any css, build with the vite plugin
+- [ ] Allow users to write scss (components / objects) and import it to build

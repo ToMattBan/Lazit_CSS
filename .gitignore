@@ -1,6 +1,3 @@
 node_modules
 pnpm-lock.yaml
 package-lock.json
-
-/sass/1_settings/*.scss
-/sass/7_utilities/*.scss
