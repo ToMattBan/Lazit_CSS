@@ -1,12 +1,13 @@
-import {DisplayAttributes} from './displayTypes'
+import * as CSS from "csstype"
 
 type IDirections = 'top' | 'bottom' | 'left' | 'right'
 
-interface IUtility<T extends string> {
-  property: string
-  values: Partial<Record<T, string>>
+type ValidCSSKeys<K extends keyof CSS.Properties> = CSS.Properties[K] extends string | undefined ? CSS.Properties[K] : never
+type CSSKeysForRecord<K extends keyof CSS.Properties> = Exclude<ValidCSSKeys<K>, undefined>
+interface IUtility<K extends keyof CSS.Properties> {
+  shorthand: string
+  values: Partial<Record<CSSKeysForRecord<K>, string>>
 }
-
 export interface IConfig {
   prefix?: string,
   responsive?: {
@@ -25,7 +26,6 @@ export interface IConfig {
     [key: string]: string
   },
   utilities?: {
-    display?: IUtility<DisplayAttributes>,
-    position?: IUtility<DisplayAttributes>
+    [K in keyof CSS.Properties]?: IUtility<K>
   }
 }

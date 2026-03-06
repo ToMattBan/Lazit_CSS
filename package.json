@@ -11,6 +11,7 @@
   "type": "module",
   "devDependencies": {
     "@types/node": "^25.3.4",
+    "csstype": "^3.2.3",
     "lightningcss": "^1.31.1",
     "typescript": "^5.9.3"
   },

@@ -28,7 +28,7 @@ const defaultConfigs: IConfig = {
   },
   utilities: {
     display: {
-      property: 'd',
+      shorthand: 'd',
       values: {
         flex: 'f',
         block: 'b',
