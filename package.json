@@ -6,11 +6,13 @@
     "lazit-css": "./build/build.cjs"
   },
   "scripts": {
-    "build": " node ./build/build.cjs --development"
+    "build": ""
   },
   "type": "module",
-  "dependencies": {
-    "sass": "^1.96.0"
+  "devDependencies": {
+    "@types/node": "^25.3.4",
+    "lightningcss": "^1.31.1",
+    "typescript": "^5.9.3"
   },
   "main": "public/main.min.css",
   "repository": {
