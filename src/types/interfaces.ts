@@ -26,12 +26,12 @@ export interface IConfig {
     divisor: string;
     total: number;
   }
-  directions?: {
-    [key: string]: IDirections | IDirections[];
-  }
   sizes?: {
     [key: string]: string;
   },
+  directions?: {
+    [key: string]: IDirections | IDirections[];
+  }
   colors?: {
     [key: string]: string;
   },

@@ -15,14 +15,6 @@ const defaultConfigs: IConfig = {
     divisor: '/',
     total: 12,
   },
-  directions: {
-    't': 'top',
-    'b': 'bottom',
-    'v': ['top', 'bottom'],
-    'l': 'left',
-    'r': 'right',
-    'h': ['left', 'right'],
-  },
   sizes: {
     "a": "auto",
     "xxxs": "4px",
@@ -33,6 +25,14 @@ const defaultConfigs: IConfig = {
     "lg": "48px",
     "xl": "64px",
     "xxl": "128px",
+  },
+  directions: {
+    't': 'top',
+    'b': 'bottom',
+    'v': ['top', 'bottom'],
+    'l': 'left',
+    'r': 'right',
+    'h': ['left', 'right'],
   },
   colors: {
     black: '#000000',

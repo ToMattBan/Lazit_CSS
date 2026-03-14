@@ -23,11 +23,11 @@ const toKebab = (value: string): string => {
 };
 
 const addBreakpoint = (breakpoint: IBreakPointConfig): string => breakpoint.name ? breakpoint.divisor + breakpoint.name : ''
-
+const scapeName = (string: string) => string.replace(/([^a-zA-Z0-9_-])/g, '\\$1');
 
 // Build Utilities Functions
 function buildGrid(divisor: string, total: number, breakpoint: IBreakPointConfig) {
-  const escapedDivisor = '\\' + divisor;
+  const escapedDivisor = scapeName(divisor);
 
   const breakPointValue = addBreakpoint(breakpoint);
 
@@ -115,12 +115,11 @@ function build(config: IConfig) {
   // If utility of type color exists, config.colors NEED to exits too.
   // Can't have two utilities with same shorthand.
 
-  // Parsing prefix it with \\ so "strange" chars like @ can be used
-  if (config.prefix) prefix = '\\' + config.prefix;
+  if (config.prefix) prefix = scapeName(config.prefix);
 
   // Making an "empty" breakpoint rule that is the mobile values, folowwing mobile-first development
   config.responsive = {
-    divisor: '\\' + (config.responsive?.divisor ?? ''),
+    divisor: scapeName(config.responsive?.divisor ?? ''),
     breakpoints: { '': 0, ...config.responsive?.breakpoints }
   };
 
