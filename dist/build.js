@@ -106,7 +106,7 @@ function build(config) {
     if (config.colors) {
         cssParts.push(':root {');
         for (const color in config.colors) {
-            cssParts.push('--', color, ':', config.colors[color]);
+            cssParts.push('--', color, ':', config.colors[color] + ';');
         }
         cssParts.push('}');
     }

@@ -11,22 +11,22 @@
     "prepublishOnly": "npm run build"
   },
   "dependencies": {
-    "lightningcss": "^1.31.1"
+    "lightningcss": "^1.31.1",
+    "tsx": "^4.21.0"
   },
   "devDependencies": {
     "@types/node": "^25.3.4",
     "csstype": "^3.2.3",
-    "tsx": "^4.21.0",
     "typescript": "^5.9.3"
   },
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "exports": {
     ".": {
-      "import": "./dist/createConfig.js",
-      "types": "./dist/createConfig.d.ts"
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
     },
-    "./style.css": "./public/style.css.min"
+    "./style.css": "./public/style.min.css"
   },
   "files": [
     "dist",
