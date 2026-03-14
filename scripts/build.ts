@@ -22,7 +22,6 @@ const toKebab = (value: string): string => {
 };
 
 const addBreakpoint = (breakpoint: IBreakPointConfig): string => breakpoint.name ? breakpoint.divisor + breakpoint.name : ''
-//const capitalize = (str: string) => str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
 
 
 // Build Utilities Functions
@@ -42,6 +41,22 @@ function buildGrid(divisor: string, total: number, breakpoint: IBreakPointConfig
   };
 
   return gridRules;
+}
+
+function buildUtility(utilityName: string, shorthand: string, values: Record<string, string>, breakpoint: IBreakPointConfig): string {
+  let utilityRules = '';
+
+  for (const utilValue in values) {
+    const utilShorthand = values[utilValue];
+
+    const ruleName = prefix + shorthand + utilShorthand + addBreakpoint(breakpoint);
+
+    utilityRules += `.${ruleName} {
+      ${utilityName}: ${utilValue}
+    }`;
+  }
+
+  return utilityRules;
 }
 
 function buildColors(utilityName: string, shorthand: string, colors: Record<string, string>, breakpoint: IBreakPointConfig): string {
@@ -160,6 +175,8 @@ function build(config: IConfig) {
         switch (utilityConfigs?.type) {
           case undefined:
           case 'value':
+            if (!utilityConfigs?.values) return; // TODO: Remove this when the validation is created
+            breakpointCss += buildUtility(utilityName, utilityConfigs.shorthand, utilityConfigs?.values as Record<string, string>, breakpointConfigs)
             break;
           case 'color':
             if (!config.colors) return; // TODO: Remove this when the validation is created
@@ -177,8 +194,6 @@ function build(config: IConfig) {
         }
       }
     }
-
-    // TODO: margin, padding always add auto
 
     if (breakpoint) breakpointCss += '}';
     cssParts.push(breakpointCss);
