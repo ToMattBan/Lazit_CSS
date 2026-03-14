@@ -34,20 +34,27 @@ const defaultConfigs: IConfig = {
     "xxl": "128px",
   },
   colors: {
-    addBackgroundColor: true,
-    addTextColor: true,
-    addBorderColor: true,
-    colors: {
-      black: '#000000',
-      white: '#FFFFFF',
-      red: '#FF0000',
-      green: '#008000',
-      blue: '#0000FF',
-      yellow: '#FFFF00',
-      orange: '#FFA500'
-    }
+    black: '#000000',
+    white: '#FFFFFF',
+    red: '#FF0000',
+    green: '#008000',
+    blue: '#0000FF',
+    yellow: '#FFFF00',
+    orange: '#FFA500'
   },
   utilities: {
+    color: {
+      shorthand: '',
+      type: 'color'
+    },
+    backgroundColor: {
+      shorthand: 'bg',
+      type: 'color'
+    },
+    borderColor: {
+      shorthand: 'bdc',
+      type: 'color'
+    },
     padding: {
       shorthand: 'p',
       type: 'directional'
@@ -74,7 +81,7 @@ const defaultConfigs: IConfig = {
     },
     fontSize: {
       shorthand: 'fs',
-      type: 'incrementalSize'
+      type: 'size'
     },
     fontWeight: {
       shorthand: 'fw',
