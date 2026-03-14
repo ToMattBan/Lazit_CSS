@@ -28,13 +28,15 @@ const addBreakpoint = (breakpoint: IBreakPointConfig): string => breakpoint.name
 function buildGrid(divisor: string, total: number, breakpoint: IBreakPointConfig): string {
   const escapedDivisor = '\\' + divisor;
   let gridRules = '';
+  const breakPointValue = addBreakpoint(breakpoint);
 
+  const step = 100 / total;
   let i = 1;
   while (i <= total) {
-    let ruleName = prefix + i + escapedDivisor + total + addBreakpoint(breakpoint);
+    let ruleName = prefix + i + escapedDivisor + total + breakPointValue;
 
     gridRules += `.${ruleName} {
-      width: ${(i / total) * 100}%
+      width: ${i * step}%
     }`;
 
     i++;
@@ -45,11 +47,11 @@ function buildGrid(divisor: string, total: number, breakpoint: IBreakPointConfig
 
 function buildUtility(utilityName: string, shorthand: string, values: Record<string, string>, breakpoint: IBreakPointConfig): string {
   let utilityRules = '';
+  const breakPointValue = addBreakpoint(breakpoint);
 
   for (const utilValue in values) {
     const utilShorthand = values[utilValue];
-
-    const ruleName = prefix + shorthand + utilShorthand + addBreakpoint(breakpoint);
+    const ruleName = prefix + shorthand + utilShorthand + breakPointValue;
 
     utilityRules += `.${ruleName} {
       ${utilityName}: ${utilValue}
@@ -61,11 +63,11 @@ function buildUtility(utilityName: string, shorthand: string, values: Record<str
 
 function buildColors(utilityName: string, shorthand: string, colors: Record<string, string>, breakpoint: IBreakPointConfig): string {
   let colorRules = '';
+  const breakPointValue = addBreakpoint(breakpoint);
 
   for (const colorName in colors) {
     const hexValue = colors[colorName];
-
-    const ruleName = prefix + shorthand + colorName + addBreakpoint(breakpoint);
+    const ruleName = prefix + shorthand + colorName + breakPointValue;
 
     colorRules += `.${ruleName} {
       ${utilityName}: ${hexValue}
@@ -78,22 +80,37 @@ function buildColors(utilityName: string, shorthand: string, colors: Record<stri
 function buildDirections(utilityName: string, shorthand: string, directions: Record<string, string | string[]>, sizes: Record<string, string>, breakpoint: IBreakPointConfig): string {
   let directionRules = '';
 
-  for (const direction in directions) {
+  const dirKeys = Object.keys(directions);
+  const sizeKeys = Object.keys(sizes);
+  const breakPointValue = addBreakpoint(breakpoint);
+
+  let d = 0;
+  while (d < dirKeys.length) {
+    const direction = dirKeys[d];
     const dirValue = directions[direction];
     const isSingle = typeof dirValue === 'string';
 
-    for (const size in sizes) {
+    let s = 0;
+    while (s < sizeKeys.length) {
+      const size = sizeKeys[s];
       const sizeValue = sizes[size];
-      const ruleName = prefix + shorthand + direction + size + addBreakpoint(breakpoint);
+
+      const ruleName = prefix + shorthand + direction + size + breakPointValue;
 
       if (isSingle) {
-        directionRules += `.${ruleName} { ${utilityName}-${dirValue}: ${sizeValue} }`;
+        directionRules += `.${ruleName} {
+          ${utilityName}-${dirValue}:${sizeValue}
+        }`;
         continue;
       }
 
-      const properties = dirValue.map(dir => `${utilityName}-${dir}: ${sizeValue};`).join(' ');
-      directionRules += `.${ruleName} { ${properties} }`;
+      const properties = dirValue.map(dir => `${utilityName}-${dir}:${sizeValue};`).join('');
+      directionRules += `.${ruleName}{ ${properties} }`;
+
+      s++;
     }
+
+    d++;
   }
 
   return directionRules;
@@ -101,10 +118,11 @@ function buildDirections(utilityName: string, shorthand: string, directions: Rec
 
 function buildSizes(utilityName: string, shorthand: string, sizes: Record<string, string>, breakpoint: IBreakPointConfig): string {
   let sizeRules = '';
+  const breakPointValue = addBreakpoint(breakpoint);
 
   for (const size in sizes) {
     const sizeValue = sizes[size];
-    const ruleName = prefix + shorthand + size + addBreakpoint(breakpoint);
+    const ruleName = prefix + shorthand + size + breakPointValue;
 
     sizeRules += `.${ruleName} {
         ${utilityName}: ${sizeValue}
