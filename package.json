@@ -1,29 +1,37 @@
 {
   "name": "lazit-css",
-  "version": "0.3.0",
+  "version": "1.0.0",
   "description": "A tool, like a hammer, but for managing CSS. It's based on the Inverted Triangle Architecture",
+  "type": "module",
   "bin": {
-    "lazit-css": "./build/build.cjs"
+    "lazit": "./dist/cli.js"
   },
   "scripts": {
-    "build": ""
+    "build": "tsc",
+    "prepublishOnly": "npm run build"
   },
-  "type": "module",
+  "dependencies": {
+    "lightningcss": "^1.31.1"
+  },
   "devDependencies": {
     "@types/node": "^25.3.4",
     "csstype": "^3.2.3",
-    "lightningcss": "^1.31.1",
+    "tsx": "^4.21.0",
     "typescript": "^5.9.3"
   },
-  "main": "public/main.min.css",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/ToMattBan/Lazit_CSS.git"
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/createConfig.js",
+      "types": "./dist/createConfig.d.ts"
+    },
+    "./style.css": "./public/style.css.min"
   },
   "files": [
-    "build",
-    "sass",
-    "public/main.min.css"
+    "dist",
+    "public",
+    "README.md"
   ],
   "keywords": [
     "css",
@@ -36,8 +44,15 @@
     "myit",
     "my-itcss",
     "sass",
-    "tool"
+    "tool",
+    "css-framework",
+    "utility-css",
+    "css-generator"
   ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ToMattBan/Lazit_CSS.git"
+  },
   "author": "ToMatt",
   "license": "ISC",
   "bugs": {

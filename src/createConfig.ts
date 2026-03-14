@@ -1,4 +1,4 @@
-import { IConfig } from "../types/interfaces.js";
+import { IConfig } from "./types/interfaces.js";
 import build from "./build.js";
 
 const defaultConfigs: IConfig = {

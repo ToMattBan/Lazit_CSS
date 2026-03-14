@@ -3,12 +3,13 @@ import path from "path";
 import { fileURLToPath } from "url";
 import { transform } from "lightningcss";
 
-import { IBreakPointConfig, IConfig } from "../types/interfaces";
+import { IBreakPointConfig, IConfig } from "./types/interfaces.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 let prefix = '';
+const cssParts: string[] = [];
 
 // Util Funcions
 const kebabCache = new Map<string, string>();
@@ -25,9 +26,9 @@ const addBreakpoint = (breakpoint: IBreakPointConfig): string => breakpoint.name
 
 
 // Build Utilities Functions
-function buildGrid(divisor: string, total: number, breakpoint: IBreakPointConfig): string {
+function buildGrid(divisor: string, total: number, breakpoint: IBreakPointConfig) {
   const escapedDivisor = '\\' + divisor;
-  let gridRules = '';
+
   const breakPointValue = addBreakpoint(breakpoint);
 
   const step = 100 / total;
@@ -35,51 +36,35 @@ function buildGrid(divisor: string, total: number, breakpoint: IBreakPointConfig
   while (i <= total) {
     let ruleName = prefix + i + escapedDivisor + total + breakPointValue;
 
-    gridRules += `.${ruleName} {
-      width: ${i * step}%
-    }`;
+    cssParts.push('.', ruleName, '{width:', String(i * step), '%}');
 
     i++;
   };
-
-  return gridRules;
 }
 
-function buildUtility(utilityName: string, shorthand: string, values: Record<string, string>, breakpoint: IBreakPointConfig): string {
-  let utilityRules = '';
+function buildUtility(utilityName: string, shorthand: string, values: Record<string, string>, breakpoint: IBreakPointConfig) {
   const breakPointValue = addBreakpoint(breakpoint);
 
   for (const utilValue in values) {
     const utilShorthand = values[utilValue];
     const ruleName = prefix + shorthand + utilShorthand + breakPointValue;
 
-    utilityRules += `.${ruleName} {
-      ${utilityName}: ${utilValue}
-    }`;
+    cssParts.push('.', ruleName, '{', utilityName, ':', utilValue, '}');
   }
-
-  return utilityRules;
 }
 
-function buildColors(utilityName: string, shorthand: string, colors: Record<string, string>, breakpoint: IBreakPointConfig): string {
-  let colorRules = '';
+function buildColors(utilityName: string, shorthand: string, colors: Record<string, string>, breakpoint: IBreakPointConfig) {
   const breakPointValue = addBreakpoint(breakpoint);
 
   for (const colorName in colors) {
     const hexValue = colors[colorName];
     const ruleName = prefix + shorthand + colorName + breakPointValue;
 
-    colorRules += `.${ruleName} {
-      ${utilityName}: ${hexValue}
-    }`;
+    cssParts.push('.', ruleName, '{', utilityName, ':', hexValue, '}');
   }
-
-  return colorRules;
 }
 
-function buildDirections(utilityName: string, shorthand: string, directions: Record<string, string | string[]>, sizes: Record<string, string>, breakpoint: IBreakPointConfig): string {
-  let directionRules = '';
-
+function buildDirections(utilityName: string, shorthand: string, directions: Record<string, string | string[]>, sizes: Record<string, string>, breakpoint: IBreakPointConfig) {
   const dirKeys = Object.keys(directions);
   const sizeKeys = Object.keys(sizes);
   const breakPointValue = addBreakpoint(breakpoint);
@@ -94,42 +79,34 @@ function buildDirections(utilityName: string, shorthand: string, directions: Rec
     while (s < sizeKeys.length) {
       const size = sizeKeys[s];
       const sizeValue = sizes[size];
-
       const ruleName = prefix + shorthand + direction + size + breakPointValue;
 
       if (isSingle) {
-        directionRules += `.${ruleName} {
-          ${utilityName}-${dirValue}:${sizeValue}
-        }`;
-        continue;
+        cssParts.push('.', ruleName, '{', utilityName, '-', dirValue, ':', sizeValue, '}');
+      } else {
+        cssParts.push('.', ruleName, '{');
+        for (const dir of dirValue) {
+          cssParts.push(utilityName, '-', dir, ':', sizeValue, ';');
+        }
+        cssParts.push('}');
       }
-
-      const properties = dirValue.map(dir => `${utilityName}-${dir}:${sizeValue};`).join('');
-      directionRules += `.${ruleName}{ ${properties} }`;
 
       s++;
     }
 
     d++;
   }
-
-  return directionRules;
 }
 
-function buildSizes(utilityName: string, shorthand: string, sizes: Record<string, string>, breakpoint: IBreakPointConfig): string {
-  let sizeRules = '';
+function buildSizes(utilityName: string, shorthand: string, sizes: Record<string, string>, breakpoint: IBreakPointConfig) {
   const breakPointValue = addBreakpoint(breakpoint);
 
   for (const size in sizes) {
     const sizeValue = sizes[size];
     const ruleName = prefix + shorthand + size + breakPointValue;
 
-    sizeRules += `.${ruleName} {
-        ${utilityName}: ${sizeValue}
-      }`;
+    cssParts.push('.', ruleName, '{', utilityName, ':', sizeValue, '}');
   }
-
-  return sizeRules;
 }
 
 // Init Build Function
@@ -155,24 +132,19 @@ function build(config: IConfig) {
     }
   }
 
-  const cssParts: string[] = [];
-
   // Putting collors on :root 
   if (config.colors) {
-    let rootCss = `:root {`
+    cssParts.push(':root {');
 
     for (const color in config.colors) {
-      rootCss += `--${color}: ${config.colors[color]};\n`
+      cssParts.push('--', color, ':', config.colors[color] + ';');
     }
 
-    rootCss += '}'
-
-    cssParts.push(rootCss);
+    cssParts.push('}');
   }
 
   for (const breakpoint in config.responsive.breakpoints) {
-    let breakpointCss = '';
-    if (breakpoint) breakpointCss += `@media (min-width: ${config.responsive.breakpoints[breakpoint]}) {`;
+    if (breakpoint) cssParts.push('@media (min-width:', String(config.responsive.breakpoints[breakpoint]), '){');
 
     const breakpointConfigs: IBreakPointConfig = {
       name: breakpoint,
@@ -181,7 +153,7 @@ function build(config: IConfig) {
 
     // Creating grid rules
     if (config.grid) {
-      breakpointCss += buildGrid(config.grid.divisor, config.grid.total, breakpointConfigs);
+      buildGrid(config.grid.divisor, config.grid.total, breakpointConfigs);
     }
 
     // Creating utilities rules
@@ -194,27 +166,26 @@ function build(config: IConfig) {
           case undefined:
           case 'value':
             if (!utilityConfigs?.values) return; // TODO: Remove this when the validation is created
-            breakpointCss += buildUtility(utilityName, utilityConfigs.shorthand, utilityConfigs?.values as Record<string, string>, breakpointConfigs)
+            buildUtility(utilityName, utilityConfigs.shorthand, utilityConfigs?.values as Record<string, string>, breakpointConfigs)
             break;
           case 'color':
             if (!config.colors) return; // TODO: Remove this when the validation is created
-            breakpointCss += buildColors(utilityName, utilityConfigs.shorthand, config.colors, breakpointConfigs);
+            buildColors(utilityName, utilityConfigs.shorthand, config.colors, breakpointConfigs);
             break;
           case 'directional':
             if (!config.directions) return; // TODO: Remove this when the validatin is created
             if (!config.sizes) return; // TODO: Remove this when the validatin is created
-            breakpointCss += buildDirections(utilityName, utilityConfigs.shorthand, config.directions, config.sizes, breakpointConfigs)
+            buildDirections(utilityName, utilityConfigs.shorthand, config.directions, config.sizes, breakpointConfigs)
             break;
           case 'size':
             if (!config.sizes) return; // TODO: Remove this when the validatin is created
-            breakpointCss += buildSizes(utilityName, utilityConfigs.shorthand, config.sizes, breakpointConfigs)
+            buildSizes(utilityName, utilityConfigs.shorthand, config.sizes, breakpointConfigs)
             break;
         }
       }
     }
 
-    if (breakpoint) breakpointCss += '}';
-    cssParts.push(breakpointCss);
+    if (breakpoint) cssParts.push('}');
   }
 
   // Building and minifying
