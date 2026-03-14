@@ -5,14 +5,16 @@ const defaultConfigs: IConfig = {
   prefix: '_',
   responsive: {
     breakpoints: {
-      'mobile': 600,
-      'tabletV': 900,
-      'tabletH': 1200,
-      'desktop': 1600,
+      'tabletV': 600,
+      'tabletH': 900,
+      'desktop': 1200,
     },
     divisor: '@'
   },
-  grid: 12,
+  grid: {
+    divisor: '/',
+    total: 12,
+  },
   directions: {
     't': 'top',
     'b': 'bottom',

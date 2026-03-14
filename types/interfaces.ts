@@ -17,11 +17,15 @@ export interface IConfig {
   prefix?: string;
   responsive?: {
     breakpoints: {
+      // key is the name of the breakpoint and the number is the min-width
       [key: string]: number;
     },
     divisor: string;
   },
-  grid: number;
+  grid?: {
+    divisor: string;
+    total: number;
+  }
   directions?: {
     [key: string]: IDirections | IDirections[];
   }
