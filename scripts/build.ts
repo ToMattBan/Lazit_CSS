@@ -123,7 +123,7 @@ function build(config: IConfig) {
   // Building and minifying
   let { code } = transform({
     filename: 'style.css',
-    //minify: true,
+    minify: true,
     code: Buffer.from(cssParts.join(''))
   })
 
