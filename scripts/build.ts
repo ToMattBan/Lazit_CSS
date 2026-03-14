@@ -50,7 +50,7 @@ function buildColors(utilityName: string, shorthand: string, colors: Record<stri
   for (const colorName in colors) {
     const hexValue = colors[colorName];
 
-    let ruleName = prefix + shorthand + colorName + addBreakpoint(breakpoint);
+    const ruleName = prefix + shorthand + colorName + addBreakpoint(breakpoint);
 
     colorRules += `.${ruleName} {
       ${utilityName}: ${hexValue}
@@ -82,6 +82,21 @@ function buildDirections(utilityName: string, shorthand: string, directions: Rec
   }
 
   return directionRules;
+}
+
+function buildSizes(utilityName: string, shorthand: string, sizes: Record<string, string>, breakpoint: IBreakPointConfig): string {
+  let sizeRules = '';
+
+  for (const size in sizes) {
+    const sizeValue = sizes[size];
+    const ruleName = prefix + shorthand + size + addBreakpoint(breakpoint);
+
+    sizeRules += `.${ruleName} {
+        ${utilityName}: ${sizeValue}
+      }`;
+  }
+
+  return sizeRules;
 }
 
 // Init Build Function
@@ -156,6 +171,8 @@ function build(config: IConfig) {
             breakpointCss += buildDirections(utilityName, utilityConfigs.shorthand, config.directions, config.sizes, breakpointConfigs)
             break;
           case 'size':
+            if (!config.sizes) return; // TODO: Remove this when the validatin is created
+            breakpointCss += buildSizes(utilityName, utilityConfigs.shorthand, config.sizes, breakpointConfigs)
             break;
         }
       }
