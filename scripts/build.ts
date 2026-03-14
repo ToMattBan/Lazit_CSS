@@ -21,45 +21,40 @@ const toKebab = (value: string): string => {
   return result;
 };
 
+const addBreakpoint = (breakpoint: IBreakPointConfig): string => breakpoint.name ? breakpoint.divisor + breakpoint.name : ''
 //const capitalize = (str: string) => str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
 
 
 // Build Utilities Functions
 function buildGrid(divisor: string, total: number, breakpoint: IBreakPointConfig): string {
-  divisor = '\\' + divisor;
+  const escapedDivisor = '\\' + divisor;
   let gridRules = '';
 
   let i = 1;
   while (i <= total) {
-    let ruleName = prefix + i + divisor + total;
-    if (breakpoint.name) ruleName += breakpoint.divisor + breakpoint.name;
+    let ruleName = prefix + i + escapedDivisor + total + addBreakpoint(breakpoint);
 
-    let rule = `.${ruleName} {
+    gridRules += `.${ruleName} {
       width: ${(i / total) * 100}%
     }`;
 
-    gridRules += rule.trim() + '\n';
     i++;
   };
 
   return gridRules;
 }
 
-function buildColors(utilityName: string, shorthand: string, colors: { [key: string]: string; }, breakpoint: IBreakPointConfig): string {
+function buildColors(utilityName: string, shorthand: string, colors: Record<string, string>, breakpoint: IBreakPointConfig): string {
   let colorRules = '';
 
-  for (const color in colors) {
-    //let ruleName = prefix + shorthand + (shorthand ? capitalize(color) : color);
-    let ruleName = prefix + shorthand + color;
-    if (breakpoint.name) ruleName += breakpoint.divisor + breakpoint.name;
+  for (const colorName in colors) {
+    const hexValue = colors[colorName];
 
-    const hexValue = colors[color];
+    let ruleName = prefix + shorthand + colorName + addBreakpoint(breakpoint);
 
-    let rule = `.${ruleName} {
+    colorRules += `.${ruleName} {
       ${utilityName}: ${hexValue}
     }`;
-
-    colorRules += rule;
   }
 
   return colorRules;
@@ -68,7 +63,11 @@ function buildColors(utilityName: string, shorthand: string, colors: { [key: str
 
 // Init Build Function
 function build(config: IConfig) {
-  // Making sure that prefix exists, even as a empty string, and parse it with \\ so "strange" chars like @ can be used
+  // TODO: Create validations
+  // If utility of type color exists, config.colors NEED to exits too.
+  // Can't have two utilities with same shorthand.
+
+  // Parsing prefix it with \\ so "strange" chars like @ can be used
   if (config.prefix) prefix = '\\' + config.prefix;
 
   // Making a "empty" breakpoint rule that is the mobile values, folowwing mobile-first development
@@ -77,14 +76,11 @@ function build(config: IConfig) {
     breakpoints: { '': 0, ...config.responsive?.breakpoints }
   };
 
-  // TODO: Create validations
-  // If utility of type color exists, config.colors NEED to exits too.
-  // Can't have two utilities with same shorthand.
-
-  let css = '';
+  const cssParts: string[] = [];
 
   for (const breakpoint in config.responsive.breakpoints) {
-    if (breakpoint) css += `@media (min-width: ${config.responsive.breakpoints[breakpoint]}) {`;
+    let breakpointCss = '';
+    if (breakpoint) breakpointCss += `@media (min-width: ${config.responsive.breakpoints[breakpoint]}) {`;
 
     const breakpointConfigs: IBreakPointConfig = {
       name: breakpoint,
@@ -92,8 +88,9 @@ function build(config: IConfig) {
     }
 
     // Creating grid rules
-    const gridCss = config.grid ? buildGrid(config.grid.divisor, config.grid.total, breakpointConfigs) : undefined;
-    css += gridCss;
+    if (config.grid) {
+      breakpointCss += buildGrid(config.grid.divisor, config.grid.total, breakpointConfigs);
+    }
 
     // Creating utilities rules
     if (config.utilities) {
@@ -107,8 +104,7 @@ function build(config: IConfig) {
             break;
           case 'color':
             if (!config.colors) return; // TODO: Remove this when the validation is created
-            const colorRules = buildColors(utilityName, utilityConfigs.shorthand, config.colors, breakpointConfigs)
-            css += colorRules
+            breakpointCss += buildColors(utilityName, utilityConfigs.shorthand, config.colors, breakpointConfigs);
             break;
           case 'directional':
             break;
@@ -120,14 +116,15 @@ function build(config: IConfig) {
 
     // TODO: margin, padding always add auto
 
-    if (breakpoint) css += '}';
+    if (breakpoint) breakpointCss += '}';
+    cssParts.push(breakpointCss);
   }
 
   // Building and minifying
   let { code } = transform({
     filename: 'style.css',
     //minify: true,
-    code: Buffer.from(css)
+    code: Buffer.from(cssParts.join(''))
   })
 
   // Saving the file

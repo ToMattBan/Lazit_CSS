@@ -10,7 +10,7 @@ type IUtility<K extends keyof CSS.Properties> = {
   values: Partial<Record<CSSKeysForRecord<K>, string>>;
 } | {
   shorthand: string;
-  type: 'directional' | 'incrementalSize';
+  type: 'directional' | 'size' | 'color';
 }
 
 export interface IConfig {
@@ -33,14 +33,14 @@ export interface IConfig {
     [key: string]: string;
   },
   colors?: {
-    addBackgroundColor: boolean;
-    addTextColor: boolean;
-    addBorderColor: boolean;
-    colors: {
-      [key: string]: string;
-    }
+    [key: string]: string;
   },
   utilities?: {
     [K in keyof CSS.Properties]?: IUtility<K>;
   }
+}
+
+export interface IBreakPointConfig {
+  name: string,
+  divisor: string
 }
