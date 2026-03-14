@@ -18,12 +18,13 @@ const defaultConfigs: IConfig = {
   directions: {
     't': 'top',
     'b': 'bottom',
-    'y': ['top', 'bottom'],
+    'v': ['top', 'bottom'],
     'l': 'left',
     'r': 'right',
-    'x': ['left', 'right'],
+    'h': ['left', 'right'],
   },
   sizes: {
+    "a": "auto",
     "xxxs": "4px",
     "xxs": "8px",
     "xs": "16px",
@@ -65,19 +66,19 @@ const defaultConfigs: IConfig = {
     },
     top: {
       shorthand: 't',
-      type: 'directional'
+      type: 'size'
     },
     bottom: {
       shorthand: 'b',
-      type: 'directional'
+      type: 'size'
     },
     left: {
       shorthand: 'l',
-      type: 'directional'
+      type: 'size'
     },
     right: {
       shorthand: 'r',
-      type: 'directional'
+      type: 'size'
     },
     fontSize: {
       shorthand: 'fs',

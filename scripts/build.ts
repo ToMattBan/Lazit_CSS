@@ -60,6 +60,29 @@ function buildColors(utilityName: string, shorthand: string, colors: Record<stri
   return colorRules;
 }
 
+function buildDirections(utilityName: string, shorthand: string, directions: Record<string, string | string[]>, sizes: Record<string, string>, breakpoint: IBreakPointConfig): string {
+  let directionRules = '';
+
+  for (const direction in directions) {
+    const dirValue = directions[direction];
+    const isSingle = typeof dirValue === 'string';
+
+    for (const size in sizes) {
+      const sizeValue = sizes[size];
+      const ruleName = prefix + shorthand + direction + size + addBreakpoint(breakpoint);
+
+      if (isSingle) {
+        directionRules += `.${ruleName} { ${utilityName}-${dirValue}: ${sizeValue} }`;
+        continue;
+      }
+
+      const properties = dirValue.map(dir => `${utilityName}-${dir}: ${sizeValue};`).join(' ');
+      directionRules += `.${ruleName} { ${properties} }`;
+    }
+  }
+
+  return directionRules;
+}
 
 // Init Build Function
 function build(config: IConfig) {
@@ -70,13 +93,34 @@ function build(config: IConfig) {
   // Parsing prefix it with \\ so "strange" chars like @ can be used
   if (config.prefix) prefix = '\\' + config.prefix;
 
-  // Making a "empty" breakpoint rule that is the mobile values, folowwing mobile-first development
+  // Making an "empty" breakpoint rule that is the mobile values, folowwing mobile-first development
   config.responsive = {
     divisor: '\\' + (config.responsive?.divisor ?? ''),
     breakpoints: { '': 0, ...config.responsive?.breakpoints }
   };
 
+  // Making an "empty" direction rule that is just the utility with all directions
+  if (config.directions) {
+    config.directions = {
+      '': ['top', 'bottom', 'left', 'right'],
+      ...config.directions
+    }
+  }
+
   const cssParts: string[] = [];
+
+  // Putting collors on :root 
+  if (config.colors) {
+    let rootCss = `:root {`
+
+    for (const color in config.colors) {
+      rootCss += `--${color}: ${config.colors[color]};\n`
+    }
+
+    rootCss += '}'
+
+    cssParts.push(rootCss);
+  }
 
   for (const breakpoint in config.responsive.breakpoints) {
     let breakpointCss = '';
@@ -107,6 +151,9 @@ function build(config: IConfig) {
             breakpointCss += buildColors(utilityName, utilityConfigs.shorthand, config.colors, breakpointConfigs);
             break;
           case 'directional':
+            if (!config.directions) return; // TODO: Remove this when the validatin is created
+            if (!config.sizes) return; // TODO: Remove this when the validatin is created
+            breakpointCss += buildDirections(utilityName, utilityConfigs.shorthand, config.directions, config.sizes, breakpointConfigs)
             break;
           case 'size':
             break;
