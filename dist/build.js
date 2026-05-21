@@ -25,7 +25,7 @@ function buildGrid(divisor, total, breakpoint) {
     let i = 1;
     while (i <= total) {
         let ruleName = prefix + i + escapedDivisor + total + breakPointValue;
-        cssParts.push('.', ruleName, '{width:', String(i * step), '%}');
+        cssParts.push('.', ruleName, '{width:', String(i * step), '% !important}');
         i++;
     }
     ;
@@ -35,7 +35,7 @@ function buildUtility(utilityName, shorthand, values, breakpoint) {
     for (const utilValue in values) {
         const utilShorthand = values[utilValue];
         const ruleName = prefix + shorthand + utilShorthand + breakPointValue;
-        cssParts.push('.', ruleName, '{', utilityName, ':', utilValue, '}');
+        cssParts.push('.', ruleName, '{', utilityName, ':', utilValue, '!important', '}');
     }
 }
 function buildColors(utilityName, shorthand, colors, breakpoint) {
@@ -43,7 +43,7 @@ function buildColors(utilityName, shorthand, colors, breakpoint) {
     for (const colorName in colors) {
         const hexValue = colors[colorName];
         const ruleName = prefix + shorthand + colorName + breakPointValue;
-        cssParts.push('.', ruleName, '{', utilityName, ':', hexValue, '}');
+        cssParts.push('.', ruleName, '{', utilityName, ':', hexValue, '!important', '}');
     }
 }
 function buildDirections(utilityName, shorthand, directions, sizes, breakpoint) {
@@ -61,12 +61,12 @@ function buildDirections(utilityName, shorthand, directions, sizes, breakpoint) 
             const sizeValue = sizes[size];
             const ruleName = prefix + shorthand + direction + size + breakPointValue;
             if (isSingle) {
-                cssParts.push('.', ruleName, '{', utilityName, '-', dirValue, ':', sizeValue, '}');
+                cssParts.push('.', ruleName, '{', utilityName, '-', dirValue, ':', sizeValue, '!important', '}');
             }
             else {
                 cssParts.push('.', ruleName, '{');
                 for (const dir of dirValue) {
-                    cssParts.push(utilityName, '-', dir, ':', sizeValue, ';');
+                    cssParts.push(utilityName, '-', dir, ':', sizeValue, '!important', ';');
                 }
                 cssParts.push('}');
             }
@@ -80,7 +80,7 @@ function buildSizes(utilityName, shorthand, sizes, breakpoint) {
     for (const size in sizes) {
         const sizeValue = sizes[size];
         const ruleName = prefix + shorthand + size + breakPointValue;
-        cssParts.push('.', ruleName, '{', utilityName, ':', sizeValue, '}');
+        cssParts.push('.', ruleName, '{', utilityName, ':', sizeValue, '!important', '}');
     }
 }
 // Init Build Function
